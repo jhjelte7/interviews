@@ -119,7 +119,10 @@ import os
 
 # Either export environment variable OPENAI_API_KEY or modify the line below
 # directly, e.g. by changing it to `OPENAI_API_KEY = "MY_OPENAI_API_KEY"`
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "ADD_YOUR_OPENAI_API_KEY_HERE_AS_A_STRING_VARIABLE") 
+# You can also hardcode your key for local testing. Replace the fallback string with your API key
+# (but avoid committing the key to source control). Example:
+#     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "sk-XXXXXXXXXXXXXXXXXXXXXXXX")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "YOUR_API_KEY_HERE") 
 
 
 INTERVIEW_PARAMETERS = {
