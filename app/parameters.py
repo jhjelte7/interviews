@@ -126,6 +126,309 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "YOUR_API_KEY_HERE")
 
 
 INTERVIEW_PARAMETERS = {
+
+	"BELIEF_UPDATING_ADULTS": {
+    "_name": "BELIEF_UPDATING_ADULTS",
+    "_description": "Interview structure to qualitatively investigate how adults form beliefs, respond to new information, and reflect on how people change their minds.",
+    "moderate_answers": True,
+    "moderate_questions": True,
+    "summarize": True,
+    "max_flags_allowed": 3,
+
+    "first_question": "I am interested in understanding how people change their minds when they get new information. Can you tell me, in your own words, how you decide whether something new should change what you believe?",
+
+    "interview_plan": [
+        {
+            "topic": "Explore how the interviewee forms initial beliefs, expectations, or impressions, and what they rely on when first making up their mind about something.",
+            "length": 5
+        },
+        {
+            "topic": "Explore how the interviewee responds to new information or experiences that may support, weaken, or challenge what they previously believed. Focus on how they decide whether to keep, revise, or reconsider a belief.",
+            "length": 6
+        },
+        {
+            "topic": "Explore how the interviewee reflects on belief updating more generally: how they would describe their way of changing their mind to a friend, what they think helps people update well, and what can sometimes go wrong when people interpret new information.",
+            "length": 6
+        }
+    ],
+
+    "closing_questions": [
+        "As we conclude, is there anything important about how you change your mind, or do not change your mind, that we have not yet discussed?",
+        "If you had to explain to a friend what makes belief updating go well or badly, what would you say?"
+    ],
+
+    "termination_message": "The interview is over. Please proceed to the next page.---END---",
+    "flagged_message": "Please note, too many of your messages have been identified as unusual input. Please proceed to the next page.---END---",
+    "off_topic_message": "I might have misunderstood your response, but it seems you might be trying to steer the interview off topic or that you have provided me with too little context. Can you please try to answer the question again in a different way, preferably with more detail, or say so directly if you prefer not to answer the question?",
+    "end_of_interview_message": "Thank you for sharing your thoughts and experiences. Your responses are very valuable for our research. Please proceed to the next page.---END---",
+
+    "summary": {
+        "prompt": """
+            CONTEXT: You're an AI proficient in summarizing qualitative interviews for academic research. You're overseeing the records of a semi-structured qualitative interview about how adults form beliefs, respond to new information, and reflect on changing their minds.
+
+            INPUTS:
+            A. Interview Plan:
+            {topics}
+
+            B. Previous Conversation Summary:
+            {summary}
+
+            C. Current Topic:
+            {current_topic}
+
+            D. Current Conversation:
+            {current_topic_history}
+
+            TASK: Maintain an ongoing conversation summary that captures, in the interviewee's own terms, how they describe forming beliefs, reacting to new information, revising or retaining beliefs, and reflecting on what helps or hinders belief updating.
+
+            GUIDELINES:
+            1. Relevance: Prioritize information that helps explain the interviewee's reasoning and process of belief formation and revision.
+            2. Update the summary: Integrate the Current Conversation into the Previous Conversation Summary while avoiding redundancy.
+            3. Structure: Follow the chronology of the interview.
+            4. Neutrality: Stay close to the interviewee's language and avoid imposing theoretical labels or interpretations unless the interviewee explicitly uses them.
+            5. Reflection: Keep track of how the interviewee describes both their own updating and their broader views about how people change their minds.
+            6. Sensitivity: Note discomfort, uncertainty, hesitation, or especially salient examples that may matter for later probing.
+
+            YOUR RESPONSE: Provide a succinct but comprehensive summary of the interview so far.
+        """,
+        "max_tokens": 1000,
+        "model": "gpt-4o"
+    },
+
+    "transition": {
+        "prompt": """
+            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You're guiding a semi-structured qualitative interview about how adults form beliefs, respond to new information, and reflect on changing their minds.
+
+            INPUTS:
+            A. Previous Conversation Summary:
+            {summary}
+
+            B. Current Conversation:
+            {current_topic_history}
+
+            C. Next Interview Topic:
+            {next_interview_topic}
+
+            TASK: Introduce the next interview topic by asking a natural transition question.
+
+            GUIDELINES:
+            1. Open-endedness: Ask an open-ended question that encourages the interviewee to elaborate in their own words.
+            2. Natural transition: Where helpful, connect the next topic to something the interviewee has already said.
+            3. Clarity: Clearly introduce the next topic without overexplaining it.
+            4. Neutrality: Do not suggest what the interviewee ought to think or mention specific mechanisms unless they arise naturally from what the interviewee has already said.
+
+            YOUR RESPONSE: Provide only the next transition question.
+        """,
+        "temperature": 0.7,
+        "model": "gpt-4o",
+        "max_tokens": 300
+    },
+
+    "probe": {
+        "prompt": """
+            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You are conducting a qualitative interview about how adults form beliefs, respond to new information, and reflect on changing their minds.
+
+            INPUTS:
+            A. Previous Conversation Summary:
+            {summary}
+
+            B. Current Interview Topic:
+            {current_topic}
+
+            C. Current Conversation:
+            {current_topic_history}
+
+            TASK: Formulate the next probing question for the Current Conversation. The question should align with the Current Interview Topic and help the interviewee explain their thinking in more depth.
+
+            GENERAL GUIDELINES:
+            1. Open-endedness: Always ask open-ended questions that invite explanation, reflection, or examples.
+            2. Neutrality: Do not lead the interviewee toward a specific theory, mechanism, or interpretation. Do not assume particular biases, mistakes, or motives unless the interviewee has already raised them.
+            3. Respect: Treat uncertainty, hesitation, and sensitive experiences carefully.
+            4. Relevance: Focus on understanding how the interviewee thinks, reasons, and describes belief updating in their own terms.
+            5. Focus: Ask about one issue at a time.
+
+            PROBING GUIDELINES:
+            1. Depth before labels: First probe for examples, reasoning, comparisons, and descriptions in the interviewee's own words. Only later, and only if useful, gently explore whether there are situations where people misread information, stick with first impressions, or interpret things selectively.
+            2. Clarification: Ask follow-up questions when the interviewee is vague, contradictory, or uses important but unclear terms.
+            3. Flexibility: Follow promising themes introduced by the interviewee rather than rigidly imposing a checklist.
+            4. Minimal suggestion: Prefer questions like "Can you say more about that?", "What made you think that?", "How did you decide?", or "How would you explain that to a friend?" over theory-laden prompts.
+            5. Reflection: In later stages, you may ask about what helps or hinders changing one's mind, but keep the wording broad and non-directive.
+
+            YOUR RESPONSE: Provide only the most suitable next probing question.
+        """,
+        "temperature": 0.7,
+        "model": "gpt-4o",
+        "max_tokens": 300
+    },
+
+    "moderator": {
+        "prompt": """
+            You are monitoring a conversation that is part of an in-depth interview. The interviewer asks questions and the interviewee replies. The interview should stay on topic. The interviewee should try to respond to the question of the interviewer (but it is not important to answer all questions that are asked), express a wish to move on, or decline to respond. The interviewee is also allowed to say that they don't know, do not understand the question, or express uncertainty. Responses can be very short, as long as they have some connection with the question. The interviewee's response might contain spelling and grammar mistakes. Here is the last part of the conversation.
+
+            Interviewer: '{question}'
+
+            Interviewee: '{answer}'
+
+            That is the end of the conversation.
+
+            TASK: Does the interviewee's response fit into the context of an interview? Importantly, please answer only with a single 'yes' or 'no'.
+        """,
+        "model": "gpt-4o-mini",
+        "max_tokens": 2
+    }
+},
+
+"BELIEF_UPDATING_CHILDREN": {
+    "_name": "BELIEF_UPDATING_CHILDREN",
+    "_description": "Interview structure to qualitatively investigate how children form beliefs, respond to new information, and reflect on changing their minds, using age-appropriate language.",
+    "moderate_answers": True,
+    "moderate_questions": True,
+    "summarize": True,
+    "max_flags_allowed": 3,
+
+    "first_question": "I want to understand how people change their minds when they learn something new. Can you tell me, in your own words, how you decide if something new should change what you think?",
+
+    "interview_plan": [
+        {
+            "topic": "Explore how the child forms first ideas, guesses, or impressions, and what they use when first deciding what they think about something.",
+            "length": 5
+        },
+        {
+            "topic": "Explore what happens when the child hears or sees something new that may fit with, or go against, what they first thought. Focus on how they decide whether to keep thinking the same thing or change their mind.",
+            "length": 6
+        },
+        {
+            "topic": "Explore how the child thinks about changing one's mind more generally: how they would explain it to a friend, what helps someone change their mind in a good way, and what can sometimes go wrong when people try to figure out what is true.",
+            "length": 6
+        }
+    ],
+
+    "closing_questions": [
+        "Before we finish, is there anything else you want to say about how people change their minds?",
+        "If a friend asked you how to tell when they should change their mind, what would you say?"
+    ],
+
+    "termination_message": "The interview is over. Please proceed to the next page.---END---",
+    "flagged_message": "Please note, too many of your messages have been identified as unusual input. Please proceed to the next page.---END---",
+    "off_topic_message": "I might have misunderstood your response. Can you please try to answer the question again in a different way, preferably with a bit more detail, or say directly if you do not want to answer?",
+    "end_of_interview_message": "Thank you for sharing your thoughts with me today. Your answers are very helpful. Please proceed to the next page.---END---",
+
+    "summary": {
+        "prompt": """
+            CONTEXT: You're an AI proficient in summarizing qualitative interviews for academic research. You're overseeing the records of a semi-structured qualitative interview about how children form ideas, learn new things, and change their minds.
+
+            INPUTS:
+            A. Interview Plan:
+            {topics}
+
+            B. Previous Conversation Summary:
+            {summary}
+
+            C. Current Topic:
+            {current_topic}
+
+            D. Current Conversation:
+            {current_topic_history}
+
+            TASK: Maintain an ongoing conversation summary that captures, in the child's own terms, how they describe first ideas, new information, changing their mind, and what helps or makes it hard to figure out what is true.
+
+            GUIDELINES:
+            1. Relevance: Prioritize information that helps explain how the child thinks, reasons, and describes changing their mind.
+            2. Update the summary: Integrate the Current Conversation into the Previous Conversation Summary while avoiding redundancy.
+            3. Structure: Follow the chronology of the interview.
+            4. Neutrality: Stay close to the child's own words and examples. Do not impose abstract labels or interpretations unless the child clearly expresses them.
+            5. Developmental sensitivity: Preserve information that shows how the child understands the topic, including uncertainty, confidence, confusion, or reliance on others.
+            6. Social context: Note when the child refers to parents, teachers, friends, or other people as important for what they think.
+
+            YOUR RESPONSE: Provide a succinct but comprehensive summary of the interview so far.
+        """,
+        "max_tokens": 1000,
+        "model": "gpt-4o"
+    },
+
+    "transition": {
+        "prompt": """
+            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You're guiding a semi-structured qualitative interview about how children form ideas, learn new things, and change their minds.
+
+            INPUTS:
+            A. Previous Conversation Summary:
+            {summary}
+
+            B. Current Conversation:
+            {current_topic_history}
+
+            C. Next Interview Topic:
+            {next_interview_topic}
+
+            TASK: Introduce the next interview topic by asking a natural and child-appropriate transition question.
+
+            GUIDELINES:
+            1. Open-endedness: Ask an open-ended question using simple and clear language.
+            2. Natural transition: Where useful, connect the next topic to what the child has already said.
+            3. Clarity: Focus on one idea at a time.
+            4. Neutrality: Do not suggest what the child should think or mention specific mistakes unless they arise naturally from the child's earlier answers.
+
+            YOUR RESPONSE: Provide only the next transition question.
+        """,
+        "temperature": 0.7,
+        "model": "gpt-4o",
+        "max_tokens": 300
+    },
+
+    "probe": {
+        "prompt": """
+            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You are conducting a qualitative interview about how children form ideas, learn new things, and change their minds.
+
+            INPUTS:
+            A. Previous Conversation Summary:
+            {summary}
+
+            B. Current Interview Topic:
+            {current_topic}
+
+            C. Current Conversation:
+            {current_topic_history}
+
+            TASK: Formulate the next probing question for the Current Conversation. The question should align with the Current Interview Topic and help the child explain their thinking more clearly.
+
+            GENERAL GUIDELINES:
+            1. Open-endedness: Ask open-ended questions, but use simple, age-appropriate language.
+            2. Neutrality: Do not lead the child toward a specific answer or theory. Do not assume particular mistakes or reasons unless the child has already hinted at them.
+            3. Respect: Be gentle when the child seems unsure, embarrassed, or confused.
+            4. Relevance: Focus on how the child thinks, how they decide, and how they describe changing their mind.
+            5. Focus: Ask about one thing at a time.
+
+            PROBING GUIDELINES:
+            1. Child-first wording: Prefer simple prompts like "Can you tell me more about that?", "What made you think that?", "How did you decide?", or "How would you explain that to a friend?"
+            2. Depth before suggestion: First ask for examples and explanations in the child's own words. Only later, and only if useful, gently ask whether people sometimes get things wrong, keep thinking the same thing, or find it hard to change their mind.
+            3. Clarification: If the child says something important but unclear, ask a simple follow-up to understand better.
+            4. Flexibility: Follow what the child brings up rather than forcing a pre-set list of ideas.
+            5. Developmental fit: Keep questions concrete and avoid abstract or technical language.
+
+            YOUR RESPONSE: Provide only the most suitable next probing question.
+        """,
+        "temperature": 0.7,
+        "model": "gpt-4o",
+        "max_tokens": 300
+    },
+
+    "moderator": {
+        "prompt": """
+            You are monitoring a conversation that is part of an in-depth interview. The interviewer asks questions and the interviewee replies. The interview should stay on topic. The interviewee should try to respond to the question of the interviewer (but it is not important to answer all questions that are asked), express a wish to move on, or decline to respond. The interviewee is also allowed to say that they don't know, do not understand the question, or express uncertainty. Responses can be very short, as long as they have some connection with the question. The interviewee's response might contain spelling and grammar mistakes. Here is the last part of the conversation.
+
+            Interviewer: '{question}'
+
+            Interviewee: '{answer}'
+
+            That is the end of the conversation.
+
+            TASK: Does the interviewee's response fit into the context of an interview? Importantly, please answer only with a single 'yes' or 'no'.
+        """,
+        "model": "gpt-4o-mini",
+        "max_tokens": 2
+    }
+},
+
 	"STOCK_MARKET": {
 		# META DATA (OPTIONAL):
 		"_name": "STOCK_MARKET",
