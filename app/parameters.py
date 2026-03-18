@@ -129,32 +129,32 @@ INTERVIEW_PARAMETERS = {
 
 "BELIEF_UPDATING_ADULTS": {
     "_name": "BELIEF_UPDATING_ADULTS",
-    "_description": "Interview structure to qualitatively investigate how adults approached a task in which they used a slider to report whether they thought it was more likely to be the green wheel or the yellow wheel based on the result of a spin.",
+    "_description": "Interview structure to qualitatively investigate how adults approached a repeated task in which they used a slider to report whether they thought it was more likely to be the green wheel or the yellow wheel after a series of spin results.",
     "moderate_answers": True,
     "moderate_questions": True,
     "summarize": True,
     "max_flags_allowed": 3,
 
-    "first_question": "In the task, you used a slider to show whether you thought it was more likely to be the green wheel or the yellow wheel after seeing the result of the spin. Can you walk me through how you decided where to put the slider?",
+    "first_question": "In the task, you saw a series of spin results and used a slider to show whether you thought it was more likely to be the green wheel or the yellow wheel. Can you walk me through how you used those spin results to decide where to put the slider?",
 
     "interview_plan": [
         {
-            "topic": "Explore in depth how the interviewee actually did the task. Ask them to describe their thinking step by step: what they paid attention to in the spin result, how they thought about the green wheel versus the yellow wheel, how sure or unsure they felt, whether they used any rule of thumb, and how they translated that thinking into a slider choice. Probe for concrete examples, clarification, and detail until their process is clear.",
+            "topic": "Explore in depth how the interviewee used the sequence of spin results during a round. Ask how they reacted to each new spin result, whether early results mattered more than later ones or vice versa, whether some results changed their mind a lot while others changed it only a little, and how they decided when to move the slider more or less. Probe for step-by-step reasoning and concrete examples from the task.",
             "length": 5
         },
         {
-            "topic": "Explore how the interviewee would explain to a friend the best way to do the task. Ask what they think a good approach is, what someone should pay attention to, how careful they should be, and how they should decide where to place the slider. Probe for practical advice, reasoning, and whether the interviewee thinks there is a right or wrong way to do it.",
-            "length": 4
+            "topic": "Explore the interviewee's general approach or strategy across rounds. Ask whether they had a rule of thumb, whether that approach changed over time, whether they looked for patterns, counted colors, focused on recent results, stuck with a first impression, or did something else. Probe for how stable or flexible their approach was and how they handled mixed or surprising results.",
+            "length": 5
         },
         {
-            "topic": "Explore what mistakes the interviewee thinks other people might have made in the task. Ask about misunderstandings, shortcuts, confusion, reading too much or too little into the spin result, not using the slider well, or getting stuck on one way of thinking. Probe for specific examples and how those mistakes may have affected answers.",
-            "length": 4
+            "topic": "Explore how the interviewee would explain the best way to do the task to a friend, and what mistakes they think other people might have made. Ask what a good approach would be, what people should pay attention to, and what can go wrong when someone sees a sequence of spin results and has to decide where to place the slider. Probe for misunderstandings, shortcuts, overconfidence, giving too much weight to one result, giving too little weight to new results, or getting confused by mixed evidence, but keep the wording natural and non-technical.",
+            "length": 5
         }
     ],
 
     "closing_questions": [
-        "Before we finish, is there anything else about how you approached the task that we have not talked about yet?",
-        "Looking back, what do you think mattered most in how you made your slider choices?"
+        "Before we finish, is there anything else about how you used the spin results that we have not talked about yet?",
+        "Looking back, what do you think was the main thing shaping how you moved the slider?"
     ],
 
     "termination_message": "The interview is over. Please proceed to the next page.---END---",
@@ -164,9 +164,9 @@ INTERVIEW_PARAMETERS = {
 
     "summary": {
         "prompt": """
-            CONTEXT: You're an AI proficient in summarizing qualitative interviews for academic research. You're overseeing the records of a semi-structured qualitative interview about how adults approached a task.
+            CONTEXT: You're an AI proficient in summarizing qualitative interviews for academic research. You're overseeing the records of a semi-structured qualitative interview about how adults approached a repeated decision task.
 
-            In the task, the interviewee used a slider to show whether they thought it was more likely to be the green wheel or the yellow wheel after seeing the result of a spin.
+            In the task, the interviewee saw a sequence of spin results and used a slider to show whether they thought it was more likely to be the green wheel or the yellow wheel.
 
             INPUTS:
             A. Interview Plan:
@@ -181,16 +181,16 @@ INTERVIEW_PARAMETERS = {
             D. Current Conversation:
             {current_topic_history}
 
-            TASK: Maintain an ongoing conversation summary that captures in detail how the interviewee says they approached the task, how they think it should best be done, and what mistakes they think other people may have made.
+            TASK: Maintain an ongoing conversation summary that captures how the interviewee responded to the sequence of spin results, what approach they used across rounds, how they think the task should best be done, and what mistakes they think other people may have made.
 
             GUIDELINES:
-            1. Relevance: Prioritize information that explains the interviewee's reasoning and decision process in the task.
+            1. Relevance: Prioritize information that explains the interviewee's reasoning process in the task.
             2. Update the summary: Integrate the Current Conversation into the Previous Conversation Summary while avoiding redundancy.
             3. Structure: Follow the chronology of the interview.
             4. Neutrality: Stay close to the interviewee's own language. Do not impose technical, statistical, or economic interpretations unless the interviewee explicitly uses them.
-            5. Task focus: Keep track of how the interviewee describes using the spin result, comparing the green wheel and the yellow wheel, handling uncertainty, and deciding where to put the slider.
-            6. Detail: Preserve specific rules of thumb, examples, descriptions of hesitation, and reflections on mistakes by others.
-            7. Sensitivity: Note confusion, uncertainty, inconsistency, or especially revealing examples that may matter for later probing.
+            5. Task focus: Track how the interviewee describes reacting to each new spin result, handling conflicting or mixed results, deciding whether to move the slider a little or a lot, and changing or keeping an overall approach across rounds.
+            6. Detail: Preserve useful details about rules of thumb, attention to early versus later results, confidence, hesitation, and descriptions of common mistakes.
+            7. Sensitivity: Note confusion, inconsistency, uncertainty, or especially revealing examples that may matter for later probing.
 
             YOUR RESPONSE: Provide a succinct but comprehensive summary of the interview so far.
         """,
@@ -200,9 +200,9 @@ INTERVIEW_PARAMETERS = {
 
     "transition": {
         "prompt": """
-            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You're guiding a semi-structured qualitative interview about how adults approached a task.
+            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You're guiding a semi-structured qualitative interview about how adults approached a repeated decision task.
 
-            In the task, the interviewee used a slider to show whether they thought it was more likely to be the green wheel or the yellow wheel after seeing the result of a spin.
+            In the task, the interviewee saw a sequence of spin results and used a slider to show whether they thought it was more likely to be the green wheel or the yellow wheel.
 
             INPUTS:
             A. Previous Conversation Summary:
@@ -221,12 +221,13 @@ INTERVIEW_PARAMETERS = {
             2. Natural transition: Where helpful, connect the next question to something the interviewee has already said.
             3. Clarity: Clearly introduce the next topic without sounding repetitive or mechanical.
             4. Neutrality: Do not suggest a correct strategy or imply that a particular answer is expected.
-            5. Interview style: Sound like a thoughtful qualitative interviewer, not a survey. The question should open space for the interviewee to explain their reasoning in depth.
+            5. Interview style: Sound like a thoughtful qualitative interviewer, not a survey. Open space for the interviewee to explain their reasoning in depth.
 
             IMPORTANT:
-            The interview should explore three broad areas:
-            - how the interviewee actually did the task,
-            - how they would explain the best way to do it to a friend,
+            The interview should explore:
+            - how the interviewee responded to the sequence of spin results,
+            - what overall approach they used across rounds,
+            - how they would explain the best way to do the task,
             - what mistakes they think other people might have made.
 
             YOUR RESPONSE: Provide only the next transition question.
@@ -238,9 +239,9 @@ INTERVIEW_PARAMETERS = {
 
     "probe": {
         "prompt": """
-            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You are conducting a qualitative interview about how adults approached a task.
+            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You are conducting a qualitative interview about how adults approached a repeated decision task.
 
-            In the task, the interviewee used a slider to show whether they thought it was more likely to be the green wheel or the yellow wheel after seeing the result of a spin.
+            In the task, the interviewee saw a sequence of spin results and used a slider to show whether they thought it was more likely to be the green wheel or the yellow wheel.
 
             INPUTS:
             A. Previous Conversation Summary:
@@ -258,19 +259,19 @@ INTERVIEW_PARAMETERS = {
             1. Open-endedness: Always ask open-ended questions that invite explanation, reflection, or examples.
             2. Neutrality: Do not lead the interviewee toward a specific theory, rule, or interpretation.
             3. Respect: Treat uncertainty or confusion carefully.
-            4. Relevance: Focus on understanding how the interviewee interpreted the spin result, thought about the two wheels, and chose where to place the slider.
+            4. Relevance: Focus on understanding how the interviewee reacted to the sequence of spin results and chose where to place the slider.
             5. Focus: Ask about one issue at a time.
-            6. Interview style: Behave like a good qualitative interviewer. Do not simply move down a checklist. Listen to what the interviewee said and probe what is still unclear, important, or revealing.
+            6. Interview style: Behave like a good qualitative interviewer. Listen carefully and probe what is still unclear, important, or revealing.
 
             PROBING GUIDELINES:
-            1. Process first: Ask how the interviewee moved from seeing the spin result to choosing a slider position.
-            2. Ask for detail: Probe for concrete examples, specific moments, comparisons, or rules of thumb.
-            3. Clarify vague answers: If the interviewee says something broad like "I just guessed" or "I followed the spin," ask what that meant in practice.
-            4. Explore uncertainty: Ask how sure or unsure they felt and how that affected where they put the slider.
-            5. Follow promising leads: If the interviewee mentions confidence, confusion, patterns, instinct, fairness, luck, or strategy, probe that further where relevant.
-            6. In the second topic, help them explain what they think is the best way to do the task.
-            7. In the third topic, help them reflect on what other people may have misunderstood or done poorly.
-            8. Minimal suggestion: Prefer prompts like "Can you walk me through that?", "What made you think that?", "What did that look like for you?", "How did you decide?", or "Can you give me an example?" Avoid introducing ideas they have not raised.
+            1. Sequence: Ask how the interviewee responded when a new spin result came in and whether that changed their view a little or a lot.
+            2. Timing: Probe whether early results mattered more, later results mattered more, or whether they tried to use all results together.
+            3. Mixed evidence: Ask how they handled rounds where the results pointed in different directions.
+            4. Strategy: Probe for rules of thumb, counting, pattern-seeking, sticking with a first impression, relying on recent results, or changing approach across rounds, but do so in natural language.
+            5. Change over time: Ask whether they approached later rounds differently from earlier rounds.
+            6. Clarification: If the interviewee says something broad like "I just followed the spins" or "I guessed," ask what that meant in practice.
+            7. Reflection: In later stages, ask what a friend should do and what mistakes others may have made.
+            8. Minimal suggestion: Prefer prompts like "Can you walk me through that?", "What made you move the slider then?", "How did that next result affect you?", "What did you do when the results were mixed?", or "Can you give me an example?" Avoid technical language.
 
             YOUR RESPONSE: Provide only the most suitable next probing question.
         """,
