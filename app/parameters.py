@@ -129,30 +129,33 @@ INTERVIEW_PARAMETERS = {
 
 "BELIEF_UPDATING_ADULTS": {
     "_name": "BELIEF_UPDATING_ADULTS",
-    "_description": "Interview structure to qualitatively investigate how adults approached a task in which they used a slider to report whether they thought the green wheel or the yellow wheel was more likely, based on the result of a spin.",
+    "_description": "Interview structure to qualitatively investigate how adults approached a task in which they used a slider to report whether they thought it was more likely to be the green wheel or the yellow wheel based on the result of a spin.",
     "moderate_answers": True,
     "moderate_questions": True,
     "summarize": True,
     "max_flags_allowed": 3,
 
-    "first_question": "In the task, you used a slider to show whether you thought it was more likely to be the green wheel or the yellow wheel after seeing the result of the spin. Can you describe, in your own words, how you decided where to put the slider?",
+    "first_question": "In the task, you used a slider to show whether you thought it was more likely to be the green wheel or the yellow wheel after seeing the result of the spin. Can you walk me through how you decided where to put the slider?",
 
     "interview_plan": [
         {
-            "topic": "Ask the interviewee to describe how they did the task. Focus on how they used the result of the spin, how they thought about the green wheel and the yellow wheel, and how they decided where to place the slider.",
-            "length": 1
+            "topic": "Explore in depth how the interviewee actually did the task. Ask them to describe their thinking step by step: what they paid attention to in the spin result, how they thought about the green wheel versus the yellow wheel, how sure or unsure they felt, whether they used any rule of thumb, and how they translated that thinking into a slider choice. Probe for concrete examples, clarification, and detail until their process is clear.",
+            "length": 5
         },
         {
-            "topic": "Ask the interviewee how they would explain to a friend the best way to do the task. Focus on what strategy, rule, or approach they think works best when using the result of the spin to decide where to place the slider.",
-            "length": 1
+            "topic": "Explore how the interviewee would explain to a friend the best way to do the task. Ask what they think a good approach is, what someone should pay attention to, how careful they should be, and how they should decide where to place the slider. Probe for practical advice, reasoning, and whether the interviewee thinks there is a right or wrong way to do it.",
+            "length": 4
         },
         {
-            "topic": "Ask the interviewee what mistakes they think other people might have made in the task. Focus on misunderstandings, poor strategies, reading too much or too little into the spin result, or using the slider in an unhelpful way.",
-            "length": 1
+            "topic": "Explore what mistakes the interviewee thinks other people might have made in the task. Ask about misunderstandings, shortcuts, confusion, reading too much or too little into the spin result, not using the slider well, or getting stuck on one way of thinking. Probe for specific examples and how those mistakes may have affected answers.",
+            "length": 4
         }
     ],
 
-    "closing_questions": [],
+    "closing_questions": [
+        "Before we finish, is there anything else about how you approached the task that we have not talked about yet?",
+        "Looking back, what do you think mattered most in how you made your slider choices?"
+    ],
 
     "termination_message": "The interview is over. Please proceed to the next page.---END---",
     "flagged_message": "Please note, too many of your messages have been identified as unusual input. Please proceed to the next page.---END---",
@@ -178,15 +181,16 @@ INTERVIEW_PARAMETERS = {
             D. Current Conversation:
             {current_topic_history}
 
-            TASK: Maintain an ongoing conversation summary that captures how the interviewee says they approached the task, how they think the task should best be done, and what mistakes they think others may have made.
+            TASK: Maintain an ongoing conversation summary that captures in detail how the interviewee says they approached the task, how they think it should best be done, and what mistakes they think other people may have made.
 
             GUIDELINES:
-            1. Relevance: Prioritize information that explains the interviewee's reasoning in the task.
+            1. Relevance: Prioritize information that explains the interviewee's reasoning and decision process in the task.
             2. Update the summary: Integrate the Current Conversation into the Previous Conversation Summary while avoiding redundancy.
             3. Structure: Follow the chronology of the interview.
             4. Neutrality: Stay close to the interviewee's own language. Do not impose technical, statistical, or economic interpretations unless the interviewee explicitly uses them.
-            5. Task focus: Keep track of how the interviewee describes using the result of the spin, thinking about the green wheel versus the yellow wheel, and choosing a slider position.
-            6. Reflection: Capture both the interviewee's own approach and their reflections on good strategies and common mistakes.
+            5. Task focus: Keep track of how the interviewee describes using the spin result, comparing the green wheel and the yellow wheel, handling uncertainty, and deciding where to put the slider.
+            6. Detail: Preserve specific rules of thumb, examples, descriptions of hesitation, and reflections on mistakes by others.
+            7. Sensitivity: Note confusion, uncertainty, inconsistency, or especially revealing examples that may matter for later probing.
 
             YOUR RESPONSE: Provide a succinct but comprehensive summary of the interview so far.
         """,
@@ -213,14 +217,15 @@ INTERVIEW_PARAMETERS = {
             TASK: Introduce the next interview topic by asking a natural transition question.
 
             GUIDELINES:
-            1. Open-endedness: Ask an open-ended question that encourages the interviewee to explain their reasoning in their own words.
+            1. Open-endedness: Ask an open-ended question that invites explanation and reflection.
             2. Natural transition: Where helpful, connect the next question to something the interviewee has already said.
-            3. Clarity: Clearly introduce the next topic without overexplaining it.
+            3. Clarity: Clearly introduce the next topic without sounding repetitive or mechanical.
             4. Neutrality: Do not suggest a correct strategy or imply that a particular answer is expected.
+            5. Interview style: Sound like a thoughtful qualitative interviewer, not a survey. The question should open space for the interviewee to explain their reasoning in depth.
 
             IMPORTANT:
-            The interview is centered on three core questions:
-            - how the interviewee did the task,
+            The interview should explore three broad areas:
+            - how the interviewee actually did the task,
             - how they would explain the best way to do it to a friend,
             - what mistakes they think other people might have made.
 
@@ -253,15 +258,19 @@ INTERVIEW_PARAMETERS = {
             1. Open-endedness: Always ask open-ended questions that invite explanation, reflection, or examples.
             2. Neutrality: Do not lead the interviewee toward a specific theory, rule, or interpretation.
             3. Respect: Treat uncertainty or confusion carefully.
-            4. Relevance: Focus on understanding how the interviewee interpreted the result of the spin, thought about the two wheels, and chose where to place the slider.
+            4. Relevance: Focus on understanding how the interviewee interpreted the spin result, thought about the two wheels, and chose where to place the slider.
             5. Focus: Ask about one issue at a time.
+            6. Interview style: Behave like a good qualitative interviewer. Do not simply move down a checklist. Listen to what the interviewee said and probe what is still unclear, important, or revealing.
 
             PROBING GUIDELINES:
-            1. Ask for process: Probe for how they went from seeing the spin result to choosing a slider position.
-            2. Ask for explanation: In the second topic, help them explain what they think is the best way to do the task.
-            3. Ask for mistakes: In the third topic, help them reflect on what other people may have misunderstood or done poorly.
-            4. Clarification: If the interviewee is vague, ask simple follow-ups such as "Can you say more about that?", "What made you decide that?", or "How did you use the spin result?"
-            5. Minimal suggestion: Do not introduce technical language or formal concepts unless the interviewee already raises them.
+            1. Process first: Ask how the interviewee moved from seeing the spin result to choosing a slider position.
+            2. Ask for detail: Probe for concrete examples, specific moments, comparisons, or rules of thumb.
+            3. Clarify vague answers: If the interviewee says something broad like "I just guessed" or "I followed the spin," ask what that meant in practice.
+            4. Explore uncertainty: Ask how sure or unsure they felt and how that affected where they put the slider.
+            5. Follow promising leads: If the interviewee mentions confidence, confusion, patterns, instinct, fairness, luck, or strategy, probe that further where relevant.
+            6. In the second topic, help them explain what they think is the best way to do the task.
+            7. In the third topic, help them reflect on what other people may have misunderstood or done poorly.
+            8. Minimal suggestion: Prefer prompts like "Can you walk me through that?", "What made you think that?", "What did that look like for you?", "How did you decide?", or "Can you give me an example?" Avoid introducing ideas they have not raised.
 
             YOUR RESPONSE: Provide only the most suitable next probing question.
         """,
@@ -289,30 +298,33 @@ INTERVIEW_PARAMETERS = {
 
 "BELIEF_UPDATING_CHILDREN": {
     "_name": "BELIEF_UPDATING_CHILDREN",
-    "_description": "Interview structure to qualitatively investigate how children reasoned in a belief-updating experiment in which they used a slider to say whether they thought the world was more likely green or yellow after getting a clue from a hidden wheel.",
+    "_description": "Interview structure to qualitatively investigate how children approached a task in which they used a slider to say whether they thought it was more likely to be the green wheel or the yellow wheel after seeing the result of a spin.",
     "moderate_answers": True,
     "moderate_questions": True,
     "summarize": True,
     "max_flags_allowed": 3,
 
-    "first_question": "In the game, you used a slider to show whether you thought the answer was more green or more yellow after getting a clue from the hidden wheel. Can you tell me how you decided where to put the slider?",
+    "first_question": "In the task, you used a slider to show whether you thought it was more likely to be the green wheel or the yellow wheel after you saw the spin result. Can you tell me how you decided where to put the slider?",
 
     "interview_plan": [
         {
-            "topic": "Ask the child to describe how they did the task. Focus on how they used the clue from the hidden wheel, how they thought about green and yellow, and how they decided where to put the slider.",
-            "length": 1
+            "topic": "Explore how the child did the task. Ask the child to explain what they thought about when they saw the spin result, how they thought about the green wheel and the yellow wheel, how sure or unsure they felt, and how they decided where to put the slider. Ask simple follow-up questions and keep going until the child's way of thinking is clear.",
+            "length": 5
         },
         {
-            "topic": "Ask the child how they would explain to a friend the best way to do the task. Focus on what they think is a good way to use the clue and choose where to put the slider.",
-            "length": 1
+            "topic": "Explore how the child would explain to a friend the best way to do the task. Ask what they think a friend should look at, what a good way to do it is, and how someone should decide where to put the slider. Ask for examples and simple explanations.",
+            "length": 4
         },
         {
-            "topic": "Ask the child what mistakes they think other people might have made in the task. Focus on ways someone could get confused, use the clue badly, or put the slider in the wrong place.",
-            "length": 1
+            "topic": "Explore what mistakes the child thinks other people might have made in the task. Ask about ways someone might get confused, forget something important, use the slider badly, or make the wrong choice after seeing the spin result. Ask for examples if the child can give them.",
+            "length": 4
         }
     ],
 
-    "closing_questions": [],
+    "closing_questions": [
+        "Before we finish, is there anything else you want to tell me about how you did the task?",
+        "What do you think was the most important part when you chose where to put the slider?"
+    ],
 
     "termination_message": "The interview is over. Please proceed to the next page.---END---",
     "flagged_message": "Please note, too many of your messages have been identified as unusual input. Please proceed to the next page.---END---",
@@ -321,9 +333,9 @@ INTERVIEW_PARAMETERS = {
 
     "summary": {
         "prompt": """
-            CONTEXT: You're an AI proficient in summarizing qualitative interviews for academic research. You're overseeing the records of a semi-structured qualitative interview about a child completing an economics experiment on belief updating.
+            CONTEXT: You're an AI proficient in summarizing qualitative interviews for academic research. You're overseeing the records of a semi-structured qualitative interview about how children approached a task.
 
-            In the task, the child used a slider to show whether they thought the answer was more likely green or yellow after getting a clue from a hidden wheel. The clue was noisy, so it did not always point to the right answer.
+            In the task, the child used a slider to show whether they thought it was more likely to be the green wheel or the yellow wheel after seeing the result of a spin.
 
             INPUTS:
             A. Interview Plan:
@@ -338,15 +350,16 @@ INTERVIEW_PARAMETERS = {
             D. Current Conversation:
             {current_topic_history}
 
-            TASK: Maintain an ongoing conversation summary that captures how the child says they did the task, how they think a friend should do it, and what mistakes they think other children or people may have made.
+            TASK: Maintain an ongoing conversation summary that captures how the child says they did the task, how they think a friend should do it, and what mistakes they think other people may have made.
 
             GUIDELINES:
             1. Relevance: Prioritize information that helps explain how the child thought through the task.
             2. Update the summary: Integrate the Current Conversation into the Previous Conversation Summary while avoiding redundancy.
             3. Structure: Follow the chronology of the interview.
             4. Neutrality: Stay close to the child's own words and examples. Do not add technical labels unless the child clearly uses them.
-            5. Developmental sensitivity: Preserve signs of uncertainty, confusion, confidence, or simple rules the child used.
-            6. Task focus: Keep track of how the child describes using the clue, thinking about green versus yellow, and deciding where to place the slider.
+            5. Developmental sensitivity: Preserve signs of uncertainty, confusion, confidence, simple rules, and concrete examples.
+            6. Task focus: Keep track of how the child describes using the spin result, thinking about the green wheel and the yellow wheel, and deciding where to put the slider.
+            7. Detail: Keep useful examples and descriptions that help explain the child's reasoning.
 
             YOUR RESPONSE: Provide a succinct but comprehensive summary of the interview so far.
         """,
@@ -356,9 +369,9 @@ INTERVIEW_PARAMETERS = {
 
     "transition": {
         "prompt": """
-            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You're guiding a semi-structured qualitative interview with a child about an economics experiment on belief updating.
+            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You're guiding a semi-structured qualitative interview with a child about how they approached a task.
 
-            In the task, the child used a slider to show whether they thought the answer was more likely green or yellow after getting a clue from a hidden wheel.
+            In the task, the child used a slider to show whether they thought it was more likely to be the green wheel or the yellow wheel after seeing the result of a spin.
 
             INPUTS:
             A. Previous Conversation Summary:
@@ -377,9 +390,10 @@ INTERVIEW_PARAMETERS = {
             2. Natural transition: Where useful, connect the next question to what the child has already said.
             3. Clarity: Focus on one idea at a time.
             4. Neutrality: Do not suggest a right answer.
+            5. Interview style: Sound like a gentle interviewer who wants to understand how the child was thinking, not like a test or quiz.
 
             IMPORTANT:
-            The interview is centered on three core questions:
+            The interview should explore three broad areas:
             - how the child did the task,
             - how they would explain the best way to do it to a friend,
             - what mistakes they think other people might have made.
@@ -393,9 +407,9 @@ INTERVIEW_PARAMETERS = {
 
     "probe": {
         "prompt": """
-            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You are conducting a qualitative interview with a child about an economics experiment on belief updating.
+            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You are conducting a qualitative interview with a child about how they approached a task.
 
-            In the task, the child used a slider to show whether they thought the answer was more likely green or yellow after getting a clue from a hidden wheel.
+            In the task, the child used a slider to show whether they thought it was more likely to be the green wheel or the yellow wheel after seeing the result of a spin.
 
             INPUTS:
             A. Previous Conversation Summary:
@@ -413,15 +427,19 @@ INTERVIEW_PARAMETERS = {
             1. Open-endedness: Ask open-ended questions, but use simple, age-appropriate language.
             2. Neutrality: Do not lead the child toward a specific answer.
             3. Respect: Be gentle if the child seems unsure or confused.
-            4. Relevance: Focus on how the child used the clue, thought about green and yellow, and chose where to put the slider.
+            4. Relevance: Focus on how the child used the spin result, thought about the two wheels, and chose where to put the slider.
             5. Focus: Ask about one thing at a time.
+            6. Interview style: Be like a kind interviewer trying to understand what the child was thinking. Listen carefully and ask about what is still unclear or interesting.
 
             PROBING GUIDELINES:
-            1. Use simple prompts like "Can you tell me more about that?", "What made you think that?", "How did you choose?", or "How would you explain that to a friend?"
-            2. In the first topic, help the child explain how they did the task.
-            3. In the second topic, help the child explain the best way to do the task to a friend.
-            4. In the third topic, help the child explain what mistakes other people may have made.
-            5. Avoid technical or abstract words. Keep questions concrete and easy to understand for an 8-year-old.
+            1. Ask the child to explain what they did step by step.
+            2. Ask for simple examples when useful.
+            3. If the child says something short like "I guessed" or "I just knew," ask what that means in a simple way.
+            4. Ask how sure or unsure the child felt, when that seems helpful.
+            5. In the second topic, help the child explain how they would tell a friend to do the task.
+            6. In the third topic, help the child explain what mistakes other people might have made.
+            7. Prefer simple prompts like "Can you tell me more?", "How did you choose?", "What made you think that?", "What happened in your head then?", or "Can you give me an example?"
+            8. Avoid technical or abstract words. Keep questions clear and easy for an 8-year-old to understand.
 
             YOUR RESPONSE: Provide only the most suitable next probing question.
         """,
