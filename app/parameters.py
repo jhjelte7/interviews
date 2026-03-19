@@ -135,11 +135,11 @@ INTERVIEW_PARAMETERS = {
     "summarize": True,
     "max_flags_allowed": 3,
 
-    "first_question": "To start broadly, can you walk me through how you decided where to put the slider during the task, including not just which direction to move it, but also how far to move it as you saw more spins?",
+    "first_question": "To start broadly, when you saw a spin result, how did you decide which way to move the slider?",
 
     "interview_plan": [
         {
-            "topic": "Open exploration of how the interviewee updated during the task. Ask how they decided where to put the slider, what they paid attention to, how they responded to a single signal, how they responded once several signals had accumulated, how they reacted when signals were all pointing in the same direction, and how they reacted when the signals were mixed. Probe especially for how they decided not just which direction to move the slider but how far to move it. Where possible, anchor the discussion in one concrete round or example, but allow the interviewee to answer in their own way. If they use unusual but interpretable language, metaphors, personal heuristics, or partial analogies, accommodate that and probe it rather than correcting it. Probe for any numerical sense, rough scale, threshold, or rule of thumb they used for the size of movement, such as moving a little, halfway, all the way, one step, more after repeated colours, less after mixed evidence, or some other personal method. Before leaving this topic, make sure to ask whether there was anything else they paid attention to when moving the slider.",
+            "topic": "Open exploration of how the interviewee updated during the task. Start by asking how they decided which way to move the slider when they saw a spin. Then follow up by asking how they knew how far to move it. After that, explore how they responded to a single signal, how they responded once several signals had accumulated, how they reacted when signals were all pointing in the same direction, and how they reacted when the signals were mixed. Probe especially for how they decided not just the direction of movement but the size of the movement. Where possible, anchor the discussion in one concrete round or example, but allow the interviewee to answer in their own way. If they use unusual but interpretable language, metaphors, personal heuristics, or partial analogies, accommodate that and probe it rather than correcting it. Probe for any numerical sense, rough scale, threshold, or rule of thumb they used for the size of movement, such as moving a little, halfway, all the way, one step, more after repeated colours, less after mixed evidence, or some other personal method. Before leaving this topic, make sure to ask whether there was anything else they paid attention to when moving the slider.",
             "length": 4
         },
         {
@@ -224,7 +224,7 @@ INTERVIEW_PARAMETERS = {
             - any especially useful point to carry forward into later questioning
         """,
         "max_tokens": 1000,
-        "model": "gpt-5.4"
+        "model": "gpt-4.1"
     },
 
     "transition": {
@@ -267,7 +267,7 @@ INTERVIEW_PARAMETERS = {
             YOUR RESPONSE: Provide only the next transition question.
         """,
         "temperature": 0.7,
-        "model": "gpt-5.4",
+        "model": "gpt-4.1",
         "max_tokens": 300
     },
 
@@ -314,17 +314,17 @@ INTERVIEW_PARAMETERS = {
             20. Integrity-trigger: If the interviewee suggests they could infer the true wheel directly, saw unintended cues, used information outside the intended signals, or otherwise bypassed the task structure, pause the normal flow and ask a clarifying follow-up before moving on or closing.
 
             PROBING GUIDELINES BY TOPIC:
-            1. Own updating process: Probe how they decided where to put the slider, what they paid attention to, how they responded to one signal, how they responded once several signals had accumulated, how they reacted when signals were all pointing the same way, and how they reacted when the signals were mixed. Probe especially how they decided whether to move a little, somewhat, halfway, a lot, or all the way. Ask whether they used counts, relative balance of colours, confidence, recent spins, or another rule of thumb.
+            1. Own updating process: Start by asking how they decided which way to move the slider when they saw a spin. Then ask how they knew how far to move it. After that, probe how they responded to one signal, how they responded once several signals had accumulated, how they reacted when signals were all pointing the same way, and how they reacted when the signals were mixed. Probe especially how they decided whether to move a little, somewhat, halfway, a lot, or all the way. Ask whether they used counts, relative balance of colours, confidence, recent spins, or another rule of thumb.
             2. Payout-maximizing way to do the task: Ask directly how they would explain to a friend how to maximize payout in the task. Probe what the friend should pay attention to after one signal, after several signals, after pure sequences, and after mixed sequences. Also probe how the friend should decide how far to move the slider. If useful, ask whether that was the same as what the interviewee personally did.
             3. Mistakes: Probe what mistakes people could make, including mistakes in direction and mistakes in how far they move the slider. Ask about mistakes after one signal, after repeated same-colour signals, and after mixed sequences. Ask for concrete examples.
             4. Challenge: Start simple. If they say it was easy or hard, then ask what made it feel that way. Probe whether deciding how far to move the slider, mixed evidence, or keeping track of earlier spins mattered.
             5. Real-world analogue: Probe for real-life situations where someone starts with an initial view and then revises it as new information arrives. Accept imperfect examples.
 
             USEFUL PROBING STYLES:
-            - "Can you walk me through that?"
+            - "When you saw a spin, how did you decide which way to move the slider?"
+            - "How did you know how far to move it?"
             - "What did that make you think?"
             - "What were you paying attention to there?"
-            - "How did you decide how far to move it?"
             - "When you say you moved it toward yellow, how far did you move it?"
             - "Did you have a rough rule for how much to move it?"
             - "Was it more like a small adjustment, halfway, or all the way?"
@@ -346,7 +346,7 @@ INTERVIEW_PARAMETERS = {
             YOUR RESPONSE: Provide only the most suitable next probing question.
         """,
         "temperature": 0.7,
-        "model": "gpt-5.4",
+        "model": "gpt-4.1",
         "max_tokens": 300
     },
 
@@ -374,7 +374,7 @@ INTERVIEW_PARAMETERS = {
 
             TASK: Does the interviewee's response fit into the context of an interview? Importantly, please answer only with a single 'yes' or 'no'.
         """,
-        "model": "gpt-5.4-mini",
+        "model": "gpt-4.1-mini",
         "max_tokens": 2
     }
 },
