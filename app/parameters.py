@@ -129,29 +129,29 @@ INTERVIEW_PARAMETERS = {
 
 "BELIEF_UPDATING_ADULTS": {
     "_name": "BELIEF_UPDATING_ADULTS",
-    "_description": "Adult interview structure for the belief-updating wheel task. The interview examines how participants updated within rounds, what they think the best strategy is, what mistakes people may make, how challenging the task felt, and whether they see similar updating in real life.",
+    "_description": "Adult interview structure for the belief-updating wheel task. The interview examines how participants updated within rounds, what they think the payout-maximizing strategy is, what mistakes people may make, how challenging the task felt, and whether they see similar updating in real life.",
     "moderate_answers": True,
     "moderate_questions": True,
     "summarize": True,
     "max_flags_allowed": 3,
 
-    "first_question": "To start broadly, can you walk me through how you decided where to put the slider during the task and how you updated it as you saw more spins?",
+    "first_question": "To start broadly, can you walk me through how you decided where to put the slider during the task, including how you decided not just which direction to move it, but also how far to move it as you saw more spins?",
 
     "interview_plan": [
         {
-            "topic": "Open exploration of how the interviewee updated during the task. Ask how they decided where to put the slider, what they paid attention to, how new spins affected them, and how they decided whether to move the slider a little or a lot. Where possible, anchor the discussion in one concrete round or example, but allow the interviewee to answer in their own way. If they use unusual but interpretable language, metaphors, personal heuristics, or partial analogies, accommodate that and probe it rather than correcting it. Before leaving this topic, make sure to ask whether there was anything else they paid attention to when moving the slider.",
+            "topic": "Open exploration of how the interviewee updated during the task. Ask how they decided where to put the slider, what they paid attention to, how new spins affected them, and how they decided not just which direction to move the slider but how far to move it. Where possible, anchor the discussion in one concrete round or example, but allow the interviewee to answer in their own way. If they use unusual but interpretable language, metaphors, personal heuristics, or partial analogies, accommodate that and probe it rather than correcting it. Probe for any numerical sense, rough scale, or rule of thumb they used for the size of movement, such as moving a little, halfway, all the way, one step, more after repeated colours, less after mixed evidence, or some other personal method. Before leaving this topic, make sure to ask whether there was anything else they paid attention to when moving the slider.",
             "length": 4
         },
         {
-            "topic": "Explore how the interviewee would explain the best way to do the task to a friend. Ask what they think someone should pay attention to, how someone should use the spins and colours, and what 'doing well' means in this task. If useful, probe whether they mean being most accurate, making the most money, or both, but do not force that distinction unless it helps clarify their answer.",
+            "topic": "Explore how the interviewee would explain to a friend how to maximize their payout in the task. Ask what they think someone should pay attention to, how someone should use the spins and colours, and how they should decide how far to move the slider to do as well as possible. Keep the question direct. If useful, probe whether their own approach was the same as what they think would maximize payout, or whether there is any difference.",
             "length": 2
         },
         {
-            "topic": "Explore what mistakes or misunderstandings people might make in this task. Ask what can go wrong, what people may overreact or underreact to, and what might lead someone to place the slider unhelpfully. Encourage concrete examples, but keep the wording natural and non-technical.",
+            "topic": "Explore what mistakes or misunderstandings people might make in this task. Ask directly what kinds of mistakes people could make, including mistakes about which direction to move the slider or how far to move it. Encourage concrete examples, but keep the wording natural and non-technical.",
             "length": 2
         },
         {
-            "topic": "Explore how challenging the interviewee found the task. Ask whether it felt easy or hard, what parts were most difficult, whether uncertainty or mixed signals made it harder, and whether the task became easier or harder over time.",
+            "topic": "Explore how challenging the interviewee found the task. First ask simply whether the task felt easy or hard overall. Then, if needed, ask what made it feel that way, including whether deciding how far to move the slider, dealing with mixed evidence, or keeping track of earlier spins mattered.",
             "length": 2
         },
         {
@@ -167,7 +167,7 @@ INTERVIEW_PARAMETERS = {
 
     "termination_message": "The interview is over. Please proceed to the next page.---END---",
     "flagged_message": "Please note, too many of your messages have been identified as unusual input. Please proceed to the next page.---END---",
-    "off_topic_message": "I may not have understood your response fully. Please try answering again in your own words. If your answer is connected indirectly, through an example, analogy, or personal way of describing it, that is completely fine too.",
+    "off_topic_message": "I may not have understood your response fully. Please try answering again in your own words. If your answer is connected indirectly, through an example, analogy, or your own way of describing it, that is completely fine too.",
     "end_of_interview_message": "Thank you for explaining how you approached the task. Your responses are very valuable for our research. Please proceed to the next page.---END---",
 
     "summary": {
@@ -191,25 +191,27 @@ INTERVIEW_PARAMETERS = {
             {current_topic_history}
 
             TASK:
-            Maintain an ongoing conversation summary that captures how the interviewee says they approached the task, what they think the best way to do it is, what mistakes they think people may make, how challenging they found it, and whether they connect it to real-world updating.
+            Maintain an ongoing conversation summary that captures how the interviewee says they approached the task, what they think the payout-maximizing way to do it is, what mistakes they think people may make, how challenging they found it, and whether they connect it to real-world updating.
 
             GUIDELINES:
             1. Relevance: Prioritize information that helps explain the interviewee's reasoning, decision process, and reflections.
             2. Update the summary: Integrate the Current Conversation into the Previous Conversation Summary while avoiding redundancy.
             3. Structure: Follow the chronology of the interview.
             4. Neutrality: Stay close to the interviewee's own language. Do not impose technical, statistical, or economic interpretations unless the interviewee explicitly uses them.
-            5. Preserve wording: The interviewee may refer to spins, colours, guesses, signals, feelings, instincts, patterns, money, confidence, luck, or other personal terms. Preserve their wording where useful.
+            5. Preserve wording: The interviewee may refer to spins, colours, guesses, signals, feelings, instincts, patterns, money, confidence, luck, steps, halfway, or other personal terms. Preserve their wording where useful.
             6. Dynamic interpretation: If the interviewee uses unusual but still interpretable language, an analogy, a metaphor, or a rough real-world comparison, treat it as meaningful and preserve it rather than normalizing it away.
             7. Cross-topic tracking: If the interviewee mentions material that is relevant to a later topic before that topic formally begins, preserve it clearly and explicitly in the summary so it can be revisited later.
             8. Coverage status: Keep track of whether each major area is already well covered, only partially covered, or still needs follow-up.
-            9. Unresolved points: Note promising statements that should be revisited later, especially when the interviewee has already touched on best strategy, mistakes, challenge, or real-world analogies before the formal topic begins.
-            10. Coding usefulness: Preserve distinctions between what they personally did, what they think one should do, what mistakes others may make, how difficult the task felt, and what real-world situations they see as similar.
+            9. Unresolved points: Note promising statements that should be revisited later, especially when the interviewee has already touched on payout-maximizing strategy, mistakes, challenge, or real-world analogies before the formal topic begins.
+            10. Magnitude of updating: Pay special attention to how the interviewee describes the size of their slider movements, including any numerical sense, rough scale, or rule of thumb for moving the slider a little, halfway, a lot, or all the way.
+            11. Contradictions or tensions: If the interviewee says things that do not fully fit together, preserve both statements clearly and mark them as something to clarify later.
+            12. Coding usefulness: Preserve distinctions between what they personally did, what they think one should do to maximize payout, what mistakes others may make, how difficult the task felt, and what real-world situations they see as similar.
 
             YOUR RESPONSE:
             Provide a succinct but comprehensive summary of the interview so far. Organize it under the following headings:
 
             1. Own updating process
-            2. Best way to do the task
+            2. Payout-maximizing way to do the task
             3. Mistakes people may make
             4. Challenge or difficulty
             5. Real-world analogies
@@ -254,9 +256,11 @@ INTERVIEW_PARAMETERS = {
             8. If the topic has only been partly covered, focus on the missing part rather than restarting the whole topic.
             9. Only ask a broad fresh-opening question when the next topic has not yet been discussed in any meaningful way.
             10. When referring back, use light phrasing such as "Earlier you mentioned..." or "You said a moment ago..." and then ask one focused follow-up.
-            11. Interview style: Sound like a thoughtful qualitative interviewer, not a survey.
-            12. Language: It is fine to use words like round, signal, spin, colour, green, yellow, result, money, challenge, example, or slider, but you may also mirror the interviewee's own wording if that feels more natural.
-            13. Soft clarification: If needed, you may lightly re-anchor the conversation to the task, but do so gently and without implying the interviewee answered wrongly.
+            11. If the interviewee has seemed impatient, terse, or irritated, keep the next question shorter and more direct.
+            12. Interview style: Sound like a thoughtful qualitative interviewer, not a survey.
+            13. Language: It is fine to use words like round, signal, spin, colour, green, yellow, result, payout, challenge, example, or slider, but you may also mirror the interviewee's own wording if that feels more natural.
+            14. Soft clarification: If needed, you may lightly re-anchor the conversation to the task, but do so gently and without implying the interviewee answered wrongly.
+            15. For the challenge topic, do not ask a long multi-part question. Start simply, for example by asking whether the task felt easy or hard overall.
 
             YOUR RESPONSE: Provide only the next transition question.
         """,
@@ -288,11 +292,11 @@ INTERVIEW_PARAMETERS = {
             GENERAL GUIDELINES:
             1. Open-endedness: Always ask open-ended questions that invite explanation, reflection, or examples.
             2. Neutrality: Do not lead the interviewee toward a specific theory, bias, rule, or interpretation.
-            3. Respect: Treat uncertainty, confusion, and unusual phrasing carefully.
+            3. Respect: Treat uncertainty, confusion, unusual phrasing, impatience, and irritation carefully.
             4. Relevance: Focus on understanding how the interviewee thought about the task, used the spins, and chose where to place the slider.
             5. Focus: Ask about one issue at a time.
             6. Interview style: Behave like a good qualitative interviewer. Listen carefully and probe what is still unclear, important, or revealing.
-            7. Language: You may use words like signal, spin, round, colour, green, yellow, result, money, difficulty, example, or slider. Also leave room for the interviewee to describe things in their own words and mirror their wording where useful.
+            7. Language: You may use words like signal, spin, round, colour, green, yellow, result, payout, difficulty, number, step, halfway, amount, example, or slider. Also leave room for the interviewee to describe things in their own words and mirror their wording where useful.
             8. Dynamic interpretation: If the interviewee answers indirectly, uses an example, uses odd but interpretable wording, gives a rough analogy, or frames the task in their own way, treat that as potentially meaningful. Explore it first before redirecting.
             9. Clarify gently: If the answer is partially unclear, ask a clarification question rather than treating it as wrong or off topic.
             10. Breadth before depth: Early within a topic, identify the main idea. Then probe where the answer seems especially informative, distinctive, or unclear. Avoid repetitive over-probing on points that have already become clear.
@@ -300,12 +304,16 @@ INTERVIEW_PARAMETERS = {
             12. Use prior material productively: Prefer questions such as "Earlier you mentioned...", "You said before that...", or "A moment ago you described..." when that helps deepen the current topic.
             13. Do not ask the interviewee to repeat something they have already explained clearly. Instead, ask for clarification, extension, contrast, an implication, or an example.
             14. If a topic has already been partly answered earlier, focus on the missing piece rather than restarting the topic from scratch.
+            15. Contradiction rule: If the interviewee gives an answer that appears to conflict with something they said earlier, do not ignore it. Ask a gentle clarification question that explicitly brings the two statements together and asks how they fit.
+            16. Terse-answer rule: If the interviewee gives a very short but relevant answer, prefer one concrete follow-up that asks for an example, clarification, comparison, or practical meaning before moving on.
+            17. Irritation rule: If the interviewee appears impatient, annoyed, or terse, do not respond with a long multi-part question. Ask a shorter, sharper follow-up.
+            18. Magnitude rule: Do not stop at direction of movement. Probe how the interviewee decided the size of the movement, including any rough number, mental scale, threshold, count, or rule of thumb they used.
 
             PROBING GUIDELINES BY TOPIC:
-            1. Own updating process: Probe how they decided where to put the slider, what they paid attention to, how new spins changed their thinking, how they decided whether to move a little or a lot, and whether there was anything else they noticed or used.
-            2. Best way to do the task: Probe how they would advise a friend, what counts as doing well, and, if helpful, whether they mean being accurate, making money, or both.
-            3. Mistakes: Probe what can go wrong, what people may misread or mishandle, and ask for concrete examples.
-            4. Challenge: Probe what felt difficult or easy, whether uncertainty mattered, and whether the task changed over time.
+            1. Own updating process: Probe how they decided where to put the slider, what they paid attention to, how new spins changed their thinking, and especially how they decided whether to move a little, somewhat, halfway, a lot, or all the way. Ask whether they used counts, relative balance of colours, confidence, recent spins, or another rule of thumb.
+            2. Payout-maximizing way to do the task: Ask directly how they would explain to a friend how to maximize payout in the task. Probe what the friend should pay attention to and how the friend should decide how far to move the slider. If useful, ask whether that was the same as what the interviewee personally did.
+            3. Mistakes: Probe what mistakes people could make, including mistakes in direction and mistakes in how far they move the slider. Ask for concrete examples.
+            4. Challenge: Start simple. If they say it was easy or hard, then ask what made it feel that way. Probe whether deciding how far to move the slider, mixed evidence, or keeping track of earlier spins mattered.
             5. Real-world analogue: Probe for real-life situations where someone starts with an initial view and then revises it as new information arrives. Accept imperfect examples.
 
             USEFUL PROBING STYLES:
@@ -313,18 +321,20 @@ INTERVIEW_PARAMETERS = {
             - "What did that make you think?"
             - "What were you paying attention to there?"
             - "How did you decide how far to move it?"
+            - "When you say you moved it toward yellow, how far did you move it?"
+            - "Did you have a rough rule for how much to move it?"
+            - "Was it more like a small adjustment, halfway, or all the way?"
+            - "What do you mean by that in practice?"
             - "Can you give me an example?"
-            - "What do you mean by that?"
-            - "In what way was it similar?"
-            - "Was there anything else you were using when you decided?"
             - "Earlier you mentioned that. Can you say a bit more about it?"
-            - "You said before that some people might do that. What kind of mistake do you mean exactly?"
+            - "Earlier you said one thing, but just now you described it a bit differently. How do those fit together for you?"
 
             AVOID:
             - technical labels unless the interviewee introduces them
             - correcting the interviewee's framing too quickly
             - asking compound questions
             - repeatedly asking for more detail when the point is already clear
+            - treating "move toward yellow" or "move toward green" as sufficient without probing the size of movement
 
             YOUR RESPONSE: Provide only the most suitable next probing question.
         """,
@@ -337,12 +347,14 @@ INTERVIEW_PARAMETERS = {
         "prompt": """
             You are monitoring a conversation that is part of an in-depth interview. The interviewer asks questions and the interviewee replies. The interview should stay broadly on topic, but relevance can be indirect.
 
-            The interviewee should try to respond to the interviewer's question, express a wish to move on, or decline to respond. The interviewee is also allowed to say that they don't know, do not understand the question, or express uncertainty. Responses can be very short, as long as they have some connection with the question. The interviewee's response might contain spelling and grammar mistakes.
+            The interviewee should try to respond to the interviewer's question, express a wish to move on, or decline to respond. The interviewee is also allowed to say that they don't know, do not understand the question, or express uncertainty. Responses can be very short, as long as they have some connection with the question. The interviewee's response might contain spelling and grammar mistakes, irritation, sarcasm, or blunt language.
 
             IMPORTANT:
             - Answer 'yes' if the response is even loosely related to the question or the task.
             - Answer 'yes' if the response uses unusual wording, a metaphor, a rough analogy, a personal example, or a partly indirect answer that still appears relevant.
             - Answer 'yes' if the interviewee seems confused but is still trying to answer.
+            - Answer 'yes' if the interviewee sounds impatient, annoyed, sarcastic, or blunt but still gives a relevant answer.
+            - Answer 'yes' if the answer is short but on topic.
             - Answer 'no' only if the response is clearly unrelated, nonsensical, purely adversarial, or empty in a way that does not engage with the interview.
 
             Here is the last part of the conversation.
