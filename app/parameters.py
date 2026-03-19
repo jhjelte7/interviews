@@ -298,42 +298,42 @@ INTERVIEW_PARAMETERS = {
 },
 
 "BELIEF_UPDATING_CHILDREN": {
-  "_name": "BELIEF_UPDATING_CHILDREN",
-  "_description": "Interview structure to qualitatively investigate how children approached a wheel task with 6 rounds. In each round, one hidden wheel was used, children gave one estimate before any spin, and then updated after each of 6 spin results using a slider between Wheel A (green wheel) and Wheel B (yellow wheel).",
-  "moderate_answers": true,
-  "moderate_questions": true,
-  "summarize": true,
-  "max_flags_allowed": 3,
+    "_name": "BELIEF_UPDATING_CHILDREN",
+    "_description": "Interview structure to qualitatively investigate how children approached a wheel task with 6 rounds. In each round, one hidden wheel was used, children gave one estimate before any spin, and then updated after each of 6 spin results using a slider between Wheel A (green wheel) and Wheel B (yellow wheel).",
+    "moderate_answers": True,
+    "moderate_questions": True,
+    "summarize": True,
+    "max_flags_allowed": 3,
 
-  "first_question": "Hi, I’m here to ask you a few questions about the wheel game and how you thought about it. There are no right or wrong answers. I just want to understand what was going through your mind. Thanks for helping. In each round, you made a first guess before any spin, and then you could change it after each spin. Can you tell me how you used what you saw to decide where to put the slider?",
+    "first_question": "In each round, you first made a guess before any spin, and then you could change it after each spin result. Can you tell me how you used those signals to decide where to put the slider?",
 
-  "interview_plan": [
-    {
-      "topic": "Explore how the child handled one round of the task. Ask what they thought before the first spin, how each new thing they saw changed what they thought, how seeing green or yellow affected them, and how they decided to move the slider a little or a lot. Ask simple follow-up questions until the child's way of thinking is clear.",
-      "length": 3
-    },
-    {
-      "topic": "Explore the child's overall way of doing the task across rounds. Ask whether they had a simple way of doing it, whether they changed how they did it over time, whether they counted colours, paid most attention to the newest spin, stuck with an early idea, or did something else. Keep the language simple and ask for examples.",
-      "length": 3
-    },
-    {
-      "topic": "Explore how the child would explain the best way to do the task to a friend, and what mistakes they think other people might have made. Ask what a friend should pay attention to and what can go wrong when someone sees lots of spins and has to choose where to put the slider. Ask for examples if the child can give them.",
-      "length": 3
-    }
-  ],
+    "interview_plan": [
+        {
+            "topic": "Explore how the child handled one round of the task. Ask what they thought before the first spin, how each new signal changed what they thought, how seeing green or yellow affected them, and how they decided to move the slider a little or a lot. Ask simple follow-up questions until the child's way of thinking is clear.",
+            "length": 3
+        },
+        {
+            "topic": "Explore the child's overall way of doing the task across rounds. Ask whether they had a simple way of doing it, whether they changed how they did it over time, whether they counted colours, paid most attention to the newest spin, stuck with an early idea, or did something else. Keep the language simple and ask for examples.",
+            "length": 3
+        },
+        {
+            "topic": "Explore how the child would explain the best way to do the task to a friend, and what mistakes they think other people might have made. Ask what a friend should pay attention to and what can go wrong when someone sees many signals and has to choose where to put the slider. Ask for examples if the child can give them.",
+            "length": 3
+        }
+    ],
 
-  "closing_questions": [
-    "Before we finish, is there anything else you want to tell me about how you used what you saw, the colours, or the spins?",
-    "What do you think mattered most when you chose where to put the slider?"
-  ],
+    "closing_questions": [
+        "Before we finish, is there anything else you want to tell me about how you used the signals, colours, or spins?",
+        "What do you think was the most important thing when you chose where to put the slider?"
+    ],
 
-  "termination_message": "That is the end of the interview. Thank you for your time. Please proceed to the next page.---END---",
-  "flagged_message": "It looks like some answers may not match the interview. Please proceed to the next page.---END---",
-  "off_topic_message": "Thanks. I may not have understood your answer properly. Could you try answering the question again in your own words? You can keep it short, or say if you do not want to answer.",
-  "end_of_interview_message": "Thank you for telling me how you did the task. That was very helpful. Please proceed to the next page.---END---",
+    "termination_message": "The interview is over. Please proceed to the next page.---END---",
+    "flagged_message": "Please note, too many of your messages have been identified as unusual input. Please proceed to the next page.---END---",
+    "off_topic_message": "I might have misunderstood your answer. Please try to answer the question again in your own words, maybe with a little more detail, or say if you do not want to answer.",
+    "end_of_interview_message": "Thank you for telling me how you did the task. Your answers are very helpful. Please proceed to the next page.---END---",
 
-  "summary": {
-    "prompt": "
+    "summary": {
+        "prompt": """
             CONTEXT: You're an AI proficient in summarizing qualitative interviews for academic research. You're overseeing the records of a semi-structured qualitative interview about how children approached a repeated wheel task.
 
             TASK BACKGROUND:
@@ -352,30 +352,30 @@ INTERVIEW_PARAMETERS = {
             D. Current Conversation:
             {current_topic_history}
 
-            TASK: Maintain an ongoing conversation summary that captures how the child says they did the task, how they used what they saw during a round, what overall way they used across rounds, how they think a friend should do it, and what mistakes they think other people may have made.
+            TASK: Maintain an ongoing conversation summary that captures how the child says they did the task, how they used signals during a round, what overall way they used across rounds, how they think a friend should do it, and what mistakes they think other people may have made.
 
             GUIDELINES:
             1. Relevance: Prioritize information that helps explain how the child thought through the task.
             2. Update the summary: Integrate the Current Conversation into the Previous Conversation Summary while avoiding redundancy.
             3. Structure: Follow the chronology of the interview.
             4. Neutrality: Stay close to the child's own words and examples. Do not add technical labels unless the child clearly uses them.
-            5. Language: The child may refer to what they saw, spins, colours, green, yellow, guesses, or other simple words. Preserve their wording where possible.
+            5. Language: The child may refer to signals, spins, colours, green, yellow, guesses, or other simple words. Preserve their wording where possible.
             6. Developmental sensitivity: Preserve signs of uncertainty, confusion, confidence, simple rules, and concrete examples.
-            7. Task focus: Track how the child describes what they thought before the first spin, how they reacted to each new spin, how they handled mixed or repeated colours, how they chose to move the slider, and whether they changed across rounds.
+            7. Task focus: Track how the child describes what they thought before the first spin, how they reacted to each new signal, how they handled mixed or repeated colours, how they chose to move the slider, and whether they changed across rounds.
             8. Detail: Keep useful examples and descriptions that help explain the child's reasoning.
 
             YOUR RESPONSE: Provide a succinct but comprehensive summary of the interview so far.
-        ",
-    "max_tokens": 1000,
-    "model": "gpt-4o"
-  },
+        """,
+        "max_tokens": 1000,
+        "model": "gpt-4o"
+    },
 
-  "transition": {
-    "prompt": "
+    "transition": {
+        "prompt": """
             CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You're guiding a semi-structured qualitative interview with a child about how they approached a repeated wheel task.
 
             TASK BACKGROUND:
-            In each round, one hidden wheel was used. The child gave one estimate before any spin and then updated after each spin using a slider.
+            In each round, one hidden wheel was used. The child gave one estimate before any spin and then updated after each spin result using a slider.
 
             INPUTS:
             A. Previous Conversation Summary:
@@ -395,23 +395,21 @@ INTERVIEW_PARAMETERS = {
             3. Clarity: Focus on one idea at a time.
             4. Neutrality: Do not suggest a right answer.
             5. Interview style: Sound like a gentle interviewer who wants to understand how the child was thinking, not like a test or quiz.
-            6. Language: It is fine to use words like round, spin, colour, green, yellow, or slider, but you can also use the child's own words if that feels more natural.
-            7. Positive continuation: Begin with one short, neutral, encouraging phrase such as 'Thanks for telling me,' 'That helps me understand,' or 'Okay, thank you,' and then ask the next question.
-            8. Do not praise the answer as correct or smart. Keep the confirmation warm but neutral.
+            6. Language: It is fine to use words like signal, round, spin, colour, green, or yellow, but you can also use the child's own words if that feels more natural.
 
-            YOUR RESPONSE: Provide only a brief confirming phrase followed by the next transition question.
-        ",
-    "temperature": 0.7,
-    "model": "gpt-4o",
-    "max_tokens": 300
-  },
+            YOUR RESPONSE: Provide only the next transition question.
+        """,
+        "temperature": 0.7,
+        "model": "gpt-4o",
+        "max_tokens": 300
+    },
 
-  "probe": {
-    "prompt": "
+    "probe": {
+        "prompt": """
             CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You are conducting a qualitative interview with a child about how they approached a repeated wheel task.
 
             TASK BACKGROUND:
-            In each round, one hidden wheel was used. The child first gave an estimate before any spin and then updated the slider after each of 6 spins.
+            In each round, one hidden wheel was used. The child first gave an estimate before any spin and then updated the slider after each of 6 spin results.
 
             INPUTS:
             A. Previous Conversation Summary:
@@ -429,33 +427,31 @@ INTERVIEW_PARAMETERS = {
             1. Open-endedness: Ask open-ended questions, but use simple, age-appropriate language.
             2. Neutrality: Do not lead the child toward a specific answer.
             3. Respect: Be gentle if the child seems unsure or confused.
-            4. Relevance: Focus on how the child used what they saw from the spins and chose where to put the slider.
+            4. Relevance: Focus on how the child used the signals from the spins and chose where to put the slider.
             5. Focus: Ask about one thing at a time.
             6. Interview style: Be like a kind interviewer trying to understand what the child was thinking.
-            7. Language: You may use words like spin, round, colour, green, yellow, or slider, but also leave room for the child to explain things in their own words.
-            8. Positive continuation: When appropriate, begin with one short, neutral, supportive phrase such as 'Thanks,' 'I see,' 'Okay,' or 'That helps me understand,' before asking the next question.
-            9. Do not praise the answer as right or wrong.
+            7. Language: You may use words like signal, spin, round, colour, green, yellow, result, or slider, but also leave room for the child to explain things in their own words.
 
             PROBING GUIDELINES:
             1. Ask what the child thought before the first spin in a round.
-            2. Ask how each new spin changed what they thought.
+            2. Ask how each new signal changed what they thought.
             3. Ask why they moved the slider a little or a lot.
             4. Ask what they did when the colours were mixed.
             5. Ask whether they used the same way in later rounds or changed over time.
-            6. If the child says something short like 'I guessed' or 'I just went with green,' ask what that means in a simple way.
+            6. If the child says something short like "I guessed" or "I just went with green," ask what that means in a simple way.
             7. In the later part of the interview, ask how they would tell a friend to do the task and what mistakes other people might have made.
-            8. Prefer simple prompts like 'Can you tell me more?', 'What did that make you think?', 'Why did you move the slider then?', 'What did you do when you saw the next colour?', or 'Can you give me an example?'
+            8. Prefer simple prompts like "Can you tell me more?", "What did that signal make you think?", "Why did you move the slider then?", "What did you do when you saw the next colour?", or "Can you give me an example?"
             9. Avoid technical or abstract words. Do not name biases.
 
-            YOUR RESPONSE: Provide only a brief confirming phrase followed by the most suitable next probing question.
-        ",
-    "temperature": 0.7,
-    "model": "gpt-4o",
-    "max_tokens": 300
-  },
+            YOUR RESPONSE: Provide only the most suitable next probing question.
+        """,
+        "temperature": 0.7,
+        "model": "gpt-4o",
+        "max_tokens": 300
+    },
 
-  "moderator": {
-    "prompt": "
+    "moderator": {
+        "prompt": """
             You are monitoring a conversation that is part of an in-depth interview. The interviewer asks questions and the interviewee replies. The interview should stay on topic. The interviewee should try to respond to the question of the interviewer, express a wish to move on, or decline to respond. The interviewee is also allowed to say that they don't know, do not understand the question, or express uncertainty. Responses can be very short, as long as they have some connection with the question. The interviewee's response might contain spelling and grammar mistakes. Here is the last part of the conversation.
 
             Interviewer: '{question}'
@@ -465,11 +461,11 @@ INTERVIEW_PARAMETERS = {
             That is the end of the conversation.
 
             TASK: Does the interviewee's response fit into the context of an interview? Importantly, please answer only with a single 'yes' or 'no'.
-        ",
-    "model": "gpt-4o-mini",
-    "max_tokens": 2
-  }
-}
+        """,
+        "model": "gpt-4o-mini",
+        "max_tokens": 2
+    }
+},
 
 	"STOCK_MARKET": {
 		# META DATA (OPTIONAL):
