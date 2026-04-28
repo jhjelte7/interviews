@@ -127,8 +127,8 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "YOUR_API_KEY_HERE")
 
 INTERVIEW_PARAMETERS = {
 
-"Qual_Interview": {
-    "_name": "Qual_Interview",
+"Qual_Interview_4.0": {
+    "_name": "Qual_Interview_4.0",
     "_description": "Adult interview structure for the belief-updating wheel task. The interview examines how participants updated within rounds, what they think the payout-maximizing strategy is, what mistakes people may make, how challenging the task felt, and whether they see similar updating in real life.",
     "moderate_answers": True,
     "moderate_questions": True,
@@ -224,7 +224,251 @@ INTERVIEW_PARAMETERS = {
             - any especially useful point to carry forward into later questioning
         """,
         "max_tokens": 1000,
-        "model": "gpt-5-mini"
+        "model": "gpt-4.1"
+    },
+
+    "transition": {
+        "prompt": """
+            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You're guiding a semi-structured qualitative interview about how adults approached a repeated wheel task.
+
+            TASK BACKGROUND:
+            In each round, one of two hidden wheels was selected. The interviewee gave one estimate before any spin and then updated after each spin result using a slider between Wheel A and Wheel B.
+
+            INPUTS:
+            A. Previous Conversation Summary:
+            {summary}
+
+            B. Current Conversation:
+            {current_topic_history}
+
+            C. Next Interview Topic:
+            {next_interview_topic}
+
+            TASK:
+            Introduce the next interview topic by asking a natural transition question.
+
+            GUIDELINES:
+            1. Open-endedness: Ask an open-ended question that invites explanation and reflection.
+            2. Natural transition: Where helpful, connect the next question to what the interviewee has already said.
+            3. Clarity: Clearly introduce the next topic without sounding repetitive or mechanical.
+            4. Neutrality: Do not suggest a correct strategy or imply that a particular answer is expected.
+            5. Dynamic interpretation: If the interviewee has been speaking in unusual, indirect, metaphorical, or non-technical language, continue in a way that accommodates that language rather than correcting it.
+            6. Carry-forward rule: Before asking about the next topic, check whether the interviewee has already said something relevant to that topic in the Previous Conversation Summary or Current Conversation.
+            7. If relevant material already exists, do not introduce the topic as completely new. Instead, ask a follow-up that deepens, clarifies, or completes that topic.
+            8. If the topic has only been partly covered, focus on the missing part rather than restarting the whole topic.
+            9. Only ask a broad fresh-opening question when the next topic has not yet been discussed in any meaningful way.
+            10. Do not use formulaic phrases like "Earlier you mentioned" unless you are genuinely recalling a previous answer, clarifying an incomplete point, or pointing out a contradiction.
+            11. If the interviewee has seemed impatient, terse, or irritated, keep the next question shorter and more direct.
+            12. Interview style: Sound like a thoughtful qualitative interviewer, not a survey.
+            13. Language: It is fine to use words like round, signal, spin, colour, green, yellow, result, payout, challenge, example, or slider, but you may also mirror the interviewee's own wording if that feels more natural.
+            14. Soft clarification: If needed, you may lightly re-anchor the conversation to the task, but do so gently and without implying the interviewee answered wrongly.
+            15. For the challenge topic, do not ask a long multi-part question. Start simply, for example by asking whether the task felt easy or hard overall.
+                
+            YOUR RESPONSE: Provide only the next transition question.
+        """,
+        "temperature": 0.7,
+        "model": "gpt-4o",
+        "max_tokens": 300
+    },
+
+    "probe": {
+        "prompt": """
+            CONTEXT: You're an AI proficient in conducting qualitative interviews for academic research. You are conducting a qualitative interview about how adults approached a repeated wheel task.
+
+            TASK BACKGROUND:
+            In each round, one of two hidden wheels was selected. The interviewee first gave an estimate before any spin and then updated the slider after each of 6 spin results.
+
+            INPUTS:
+            A. Previous Conversation Summary:
+            {summary}
+
+            B. Current Interview Topic:
+            {current_topic}
+
+            C. Current Conversation:
+            {current_topic_history}
+
+            TASK:
+            Formulate the next probing question for the Current Conversation. The question should align with the Current Interview Topic and help the interviewee explain their reasoning more clearly and in more depth.
+
+                        GENERAL GUIDELINES:
+            1. Ask open-ended, neutral questions that invite explanation, reflection, or examples.
+            2. Ask about one issue at a time. Avoid compound questions.
+            3. Focus on how the interviewee thought about the task, used the spins, and chose where to place the slider.
+            4. Treat uncertainty, confusion, vague wording, impatience, and unusual phrasing carefully.
+            5. If an answer is unclear, vague, or ambiguous, clarify it before moving on.
+            6. If the interviewee says something like "randomly", "I guessed", "I just tried", "felt like it", or "I don't know", first ask what that meant in practice. Do not assume the meaning of vague terms.
+            7. Once the basic meaning is clear, probe direction: how they decided whether to move toward green or yellow.
+            8. Then probe magnitude: how they decided how far to move the slider, including any rough number, scale, threshold, count, or rule of thumb.
+            9. If the interviewee gives a rule, test it gently with a concrete case, such as one signal, repeated same-colour signals, or a mixed sequence.
+            10. If the interviewee gives a very short but relevant answer, ask for an example, clarification, comparison, or practical meaning.
+            11. If the interviewee appears impatient, annoyed, or terse, ask a shorter and more direct follow-up.
+            12. If the interviewee says something that conflicts with an earlier answer, ask gently how the two statements fit together.
+            13. Mirror the interviewee's own wording where useful. Do not impose technical, statistical, or economic interpretations unless the interviewee introduces them.
+            14. If the interviewee suggests they used information outside the intended spins, such as unintended cues or direct knowledge of the true wheel, pause and ask a clarifying follow-up.
+
+            PROBING GUIDELINES BY TOPIC:
+            1. Own updating process: First clarify the interviewee's actual rule, intuition, or heuristic. Then ask about direction, then size of movement. Probe one spin versus several spins, same-colour versus mixed sequences, and whether they used counts, confidence, recent spins, or another rule of thumb.
+            2. Payout-maximizing way to do the task: Ask how they would explain to a friend how to do well. Probe what the friend should pay attention to after one signal, after several signals, after same-colour sequences, and after mixed sequences. Also ask how the friend should decide how far to move the slider.
+            3. Mistakes: Ask what mistakes people could make, including moving in the wrong direction, moving too much or too little, misunderstanding one signal, or misreading repeated or mixed sequences.
+            4. Challenge: Ask whether the task felt easy or hard, then ask what made it feel that way.
+            5. Real-world analogue: Ask whether there are real-life situations where someone starts with an initial view and then changes it as new information arrives.
+
+            USEFUL PROBING STYLES:
+            - "When you say you randomly tried, what did that mean in practice?"
+            - "What did guessing look like for you when you moved the slider?"
+            - "Was there anything you were still paying attention to, even if it felt random?"
+            - "How did you decide which way to move the slider?"
+            - "How did you decide how far to move it?"
+            - "Was it a small adjustment, halfway, a lot, or all the way?"
+            - "What would you do after just one yellow spin?"
+            - "What about after several yellow spins in a row?"
+            - "What would you do if the colours were mixed?"
+            - "Can you give me an example?"
+            - "How do those two ideas fit together?"
+
+            AVOID:
+            - leading the interviewee toward a specific theory, bias, rule, or interpretation
+            - technical labels unless the interviewee introduces them
+            - assuming vague terms are already understood
+            - jumping to size of movement before clarifying ambiguous descriptions
+            - treating "move toward yellow" or "move toward green" as sufficient without probing magnitude
+            - repeatedly asking for more detail when the point is already clear
+
+            YOUR RESPONSE: Provide only the most suitable next probing question.
+        """,
+        "temperature": 0.7,
+        "model": "gpt-4o",
+        "max_tokens": 300
+    },
+
+    "moderator": {
+        "prompt": """
+            You are monitoring a conversation that is part of an in-depth interview. The interviewer asks questions and the interviewee replies. The interview should stay broadly on topic, but relevance can be indirect.
+
+            The interviewee should try to respond to the interviewer's question, express a wish to move on, or decline to respond. The interviewee is also allowed to say that they don't know, do not understand the question, or express uncertainty. Responses can be very short, as long as they have some connection with the question. The interviewee's response might contain spelling and grammar mistakes, irritation, sarcasm, or blunt language.
+
+            IMPORTANT:
+            - Answer 'yes' if the response is even loosely related to the question or the task.
+            - Answer 'yes' if the response uses unusual wording, a metaphor, a rough analogy, a personal example, or a partly indirect answer that still appears relevant.
+            - Answer 'yes' if the interviewee seems confused but is still trying to answer.
+            - Answer 'yes' if the interviewee sounds impatient, annoyed, sarcastic, or blunt but still gives a relevant answer.
+            - Answer 'yes' if the answer is short but on topic.
+            - Answer 'no' only if the response is clearly unrelated, nonsensical, purely adversarial, or empty in a way that does not engage with the interview.
+
+            Here is the last part of the conversation.
+
+            Interviewer: '{question}'
+
+            Interviewee: '{answer}'
+
+            That is the end of the conversation.
+
+            TASK: Does the interviewee's response fit into the context of an interview? Importantly, please answer only with a single 'yes' or 'no'.
+        """,
+        "model": "gpt-4.1",
+        "max_tokens": 2
+    }
+},
+
+"Qual_Interview_4.1": {
+    "_name": "Qual_Interview_4.1",
+    "_description": "Adult interview structure for the belief-updating wheel task. The interview examines how participants updated within rounds, what they think the payout-maximizing strategy is, what mistakes people may make, how challenging the task felt, and whether they see similar updating in real life.",
+    "moderate_answers": True,
+    "moderate_questions": True,
+    "summarize": True,
+    "max_flags_allowed": 3,
+
+    "first_question": "To start broadly, when you saw a spin result, how did you decide which way to move the slider?",
+
+    "interview_plan": [
+        {
+            "topic": "Open exploration of how the interviewee updated during the task. Start by asking how they decided which way to move the slider when they saw a spin. Then follow up by asking how they knew how far to move it. After that, explore how they responded to a single signal, how they responded once several signals had accumulated, how they reacted when signals were all pointing in the same direction, and how they reacted when the signals were mixed. Probe especially for how they decided not just the direction of movement but the size of the movement. Where possible, anchor the discussion in one concrete round or example, but allow the interviewee to answer in their own way. If they use unusual but interpretable language, metaphors, personal heuristics, or partial analogies, accommodate that and probe it rather than correcting it. Probe for any numerical sense, rough scale, threshold, or rule of thumb they used for the size of movement, such as moving a little, halfway, all the way, one step, more after repeated colours, less after mixed evidence, or some other personal method. Before leaving this topic, make sure to ask whether there was anything else they paid attention to when moving the slider.",
+            "length": 4
+        },
+        {
+            "topic": "Explore how the interviewee would explain to a friend how to maximize their payout in the task. Ask what they think someone should pay attention to, how someone should use single versus repeated signals, how someone should deal with pure versus mixed sequences, and how they should decide how far to move the slider to do as well as possible. If useful, probe whether their own approach was the same as what they think would maximize payout, or whether there is any difference.",
+            "length": 2
+        },
+        {
+            "topic": "Explore what mistakes or misunderstandings people might make in this task. Ask directly what kinds of mistakes people could make, including mistakes about which direction to move the slider, mistakes about how far to move it, mistakes after one signal, and mistakes after longer pure or mixed sequences. Encourage concrete examples, but keep the wording natural and non-technical.",
+            "length": 2
+        },
+        {
+            "topic": "Explore how challenging the interviewee found the task. First ask simply whether the task felt easy or hard overall. Then, if needed, ask what made it feel that way, including whether deciding how far to move the slider, dealing with mixed evidence, or keeping track of earlier spins mattered.",
+            "length": 2
+        },
+        {
+            "topic": "Explore whether the interviewee can think of a real-world situation where they update their thinking in a similar way. Accept a wide range of examples, including rough analogies, imperfect comparisons, and everyday situations. If they struggle, gently ask whether there are situations where they make an initial guess and then revise it as new information comes in.",
+            "length": 2
+        }
+    ],
+
+    "closing_questions": [
+        "Before we move on, was there anything else you paid attention to when deciding where to put the slider?",
+        "Before we finish, is there anything else about how you approached this task that we have not talked about yet?"
+    ],
+
+    "termination_message": "The interview is over. Please proceed to the next page.---END---",
+    "flagged_message": "Please note, too many of your messages have been identified as unusual input. Please proceed to the next page.---END---",
+    "off_topic_message": "I may not have understood your response fully. Please try answering again in your own words. If your answer is connected indirectly, through an example, analogy, or your own way of describing it, that is completely fine too.",
+    "end_of_interview_message": "Thank you for explaining how you approached the task. Your responses are very valuable for our research. Please proceed to the next page.---END---",
+
+    "summary": {
+        "prompt": """
+            CONTEXT: You're an AI proficient in summarizing qualitative interviews for academic research. You're overseeing the records of a semi-structured qualitative interview about how adults approached a repeated wheel task.
+
+            TASK BACKGROUND:
+            In each round, one of two hidden wheels was selected. Wheel A was mostly green and Wheel B was mostly yellow. Before any spin, the interviewee gave an estimate on a slider. Then, after each of 6 spins in the round, the interviewee updated the slider again based on the colour shown by the spin.
+
+            INPUTS:
+            A. Interview Plan:
+            {topics}
+
+            B. Previous Conversation Summary:
+            {summary}
+
+            C. Current Topic:
+            {current_topic}
+
+            D. Current Conversation:
+            {current_topic_history}
+
+            TASK:
+            Maintain an ongoing conversation summary that captures how the interviewee says they approached the task, what they think the payout-maximizing way to do it is, what mistakes they think people may make, how challenging they found it, and whether they connect it to real-world updating.
+
+            GUIDELINES:
+            1. Relevance: Prioritize information that helps explain the interviewee's reasoning, decision process, and reflections.
+            2. Update the summary: Integrate the Current Conversation into the Previous Conversation Summary while avoiding redundancy.
+            3. Structure: Follow the chronology of the interview.
+            4. Neutrality: Stay close to the interviewee's own language. Do not impose technical, statistical, or economic interpretations unless the interviewee explicitly uses them.
+            5. Preserve wording: The interviewee may refer to spins, colours, guesses, signals, feelings, instincts, patterns, money, confidence, luck, steps, halfway, all the way, or other personal terms. Preserve their wording where useful.
+            6. Dynamic interpretation: If the interviewee uses unusual but still interpretable language, an analogy, a metaphor, or a rough real-world comparison, treat it as meaningful and preserve it rather than normalizing it away.
+            7. Cross-topic tracking: If the interviewee mentions material that is relevant to a later topic before that topic formally begins, preserve it clearly and explicitly in the summary so it can be revisited later.
+            8. Coverage status: Keep track of whether each major area is already well covered, only partially covered, or still needs follow-up.
+            9. Unresolved points: Note promising statements that should be revisited later, especially when the interviewee has already touched on payout-maximizing strategy, mistakes, challenge, or real-world analogies before the formal topic begins.
+            10. Magnitude of updating: Pay special attention to how the interviewee describes the size of their slider movements, including any numerical sense, rough scale, threshold, or rule of thumb for moving the slider a little, halfway, a lot, or all the way.
+            11. Single vs accumulated evidence: Preserve what the interviewee says about how they responded to one signal versus several signals together.
+            12. Pure vs mixed evidence: Preserve what the interviewee says about sequences where all signals point the same way versus mixed sequences.
+            13. Contradictions or tensions: If the interviewee says things that do not fully fit together, preserve both statements clearly and mark them as something to clarify later.
+            14. Coding usefulness: Preserve distinctions between what they personally did, what they think one should do to maximize payout, what mistakes others may make, how difficult the task felt, and what real-world situations they see as similar.
+
+            YOUR RESPONSE:
+            Provide a succinct but comprehensive summary of the interview so far. Organize it under the following headings:
+
+            1. Own updating process
+            2. Payout-maximizing way to do the task
+            3. Mistakes people may make
+            4. Challenge or difficulty
+            5. Real-world analogies
+
+            Under each heading, briefly state:
+            - what has been said so far
+            - whether this area is covered, partially covered, or not yet covered
+            - any especially useful point to carry forward into later questioning
+        """,
+        "max_tokens": 1000,
+        "model": "gpt-4o"
     },
 
     "transition": {
@@ -267,7 +511,7 @@ INTERVIEW_PARAMETERS = {
             YOUR RESPONSE: Provide only the next transition question.
         """,
         "temperature": 0.7,
-        "model": "gpt-5-mini",
+        "model": "gpt-4o",
         "max_tokens": 300
     },
 
@@ -292,61 +536,53 @@ INTERVIEW_PARAMETERS = {
             Formulate the next probing question for the Current Conversation. The question should align with the Current Interview Topic and help the interviewee explain their reasoning more clearly and in more depth.
 
             GENERAL GUIDELINES:
-            1. Open-endedness: Always ask open-ended questions that invite explanation, reflection, or examples.
-            2. Neutrality: Do not lead the interviewee toward a specific theory, bias, rule, or interpretation.
-            3. Respect: Treat uncertainty, confusion, unusual phrasing, impatience, and irritation carefully.
-            4. Relevance: Focus on understanding how the interviewee thought about the task, used the spins, and chose where to place the slider.
-            5. Focus: Ask about one issue at a time.
-            6. Interview style: Behave like a good qualitative interviewer. Listen carefully and probe what is still unclear, important, or revealing.
-            7. Language: You may use words like signal, spin, round, colour, green, yellow, result, payout, difficulty, number, step, halfway, amount, example, or slider. Also leave room for the interviewee to describe things in their own words and mirror their wording where useful.
-            8. Dynamic interpretation: If the interviewee answers indirectly, uses an example, uses odd but interpretable wording, gives a rough analogy, or frames the task in their own way, treat that as potentially meaningful. Explore it first before redirecting.
-            9. Clarify gently: If the answer is partially unclear, ask a clarification question rather than treating it as wrong or off topic.
-            10. Breadth before depth: Early within a topic, identify the main idea. Then probe where the answer seems especially informative, distinctive, or unclear. Avoid repetitive over-probing on points that have already become clear.
-            11. Cross-topic use: If the interviewee has already mentioned something relevant to the Current Interview Topic earlier in the interview, you may explicitly bring it forward and probe it further.
-            12. Use prior material sparingly: Do not keep saying "Earlier you mentioned" unless it is genuinely helpful for clarifying a contradiction, returning to an unfinished point, or continuing an answer already started.
-            13. Do not ask the interviewee to repeat something they have already explained clearly. Instead, ask for clarification, extension, contrast, an implication, or an example.
-            14. If a topic has already been partly answered earlier, focus on the missing piece rather than restarting the topic from scratch.
-            15. Contradiction rule: If the interviewee gives an answer that appears to conflict with something they said earlier, do not ignore it. Ask a gentle clarification question that explicitly brings the two statements together and asks how they fit.
-            16. Terse-answer rule: If the interviewee gives a very short but relevant answer, prefer one concrete follow-up that asks for an example, clarification, comparison, or practical meaning before moving on.
-            17. Irritation rule: If the interviewee appears impatient, annoyed, or terse, do not respond with a long multi-part question. Ask a shorter, sharper follow-up.
-            18. Magnitude rule: Do not stop at direction of movement. Probe how the interviewee decided the size of the movement, including any rough number, mental scale, threshold, count, or rule of thumb they used.
-            19. Rule-testing rule: If the interviewee gives a clear rule for updating, test it with at least one concrete case, especially a single signal, repeated pure signals, or a mixed sequence.
-            20. Integrity-trigger: If the interviewee suggests they could infer the true wheel directly, saw unintended cues, used information outside the intended signals, or otherwise bypassed the task structure, pause the normal flow and ask a clarifying follow-up before moving on or closing.
+            1. Ask open-ended, neutral questions that invite explanation, reflection, or examples.
+            2. Ask about one issue at a time. Avoid compound questions.
+            3. Focus on how the interviewee thought about the task, used the spins, and chose where to place the slider.
+            4. Treat uncertainty, confusion, vague wording, impatience, and unusual phrasing carefully.
+            5. If an answer is unclear, vague, or ambiguous, clarify it before moving on.
+            6. If the interviewee says something like "randomly", "I guessed", "I just tried", "felt like it", or "I don't know", first ask what that meant in practice. Do not assume the meaning of vague terms.
+            7. Once the basic meaning is clear, probe direction: how they decided whether to move toward green or yellow.
+            8. Then probe magnitude: how they decided how far to move the slider, including any rough number, scale, threshold, count, or rule of thumb.
+            9. If the interviewee gives a rule, test it gently with a concrete case, such as one signal, repeated same-colour signals, or a mixed sequence.
+            10. If the interviewee gives a very short but relevant answer, ask for an example, clarification, comparison, or practical meaning.
+            11. If the interviewee appears impatient, annoyed, or terse, ask a shorter and more direct follow-up.
+            12. If the interviewee says something that conflicts with an earlier answer, ask gently how the two statements fit together.
+            13. Mirror the interviewee's own wording where useful. Do not impose technical, statistical, or economic interpretations unless the interviewee introduces them.
+            14. If the interviewee suggests they used information outside the intended spins, such as unintended cues or direct knowledge of the true wheel, pause and ask a clarifying follow-up.
 
             PROBING GUIDELINES BY TOPIC:
-            1. Own updating process: Start by asking how they decided which way to move the slider when they saw a spin. Then ask how they knew how far to move it. After that, probe how they responded to one signal, how they responded once several signals had accumulated, how they reacted when signals were all pointing the same way, and how they reacted when the signals were mixed. Probe especially how they decided whether to move a little, somewhat, halfway, a lot, or all the way. Ask whether they used counts, relative balance of colours, confidence, recent spins, or another rule of thumb.
-            2. Payout-maximizing way to do the task: Ask directly how they would explain to a friend how to maximize payout in the task. Probe what the friend should pay attention to after one signal, after several signals, after pure sequences, and after mixed sequences. Also probe how the friend should decide how far to move the slider. If useful, ask whether that was the same as what the interviewee personally did.
-            3. Mistakes: Probe what mistakes people could make, including mistakes in direction and mistakes in how far they move the slider. Ask about mistakes after one signal, after repeated same-colour signals, and after mixed sequences. Ask for concrete examples.
-            4. Challenge: Start simple. If they say it was easy or hard, then ask what made it feel that way. Probe whether deciding how far to move the slider, mixed evidence, or keeping track of earlier spins mattered.
-            5. Real-world analogue: Probe for real-life situations where someone starts with an initial view and then revises it as new information arrives. Accept imperfect examples.
+            1. Own updating process: First clarify the interviewee's actual rule, intuition, or heuristic. Then ask about direction, then size of movement. Probe one spin versus several spins, same-colour versus mixed sequences, and whether they used counts, confidence, recent spins, or another rule of thumb.
+            2. Payout-maximizing way to do the task: Ask how they would explain to a friend how to do well. Probe what the friend should pay attention to after one signal, after several signals, after same-colour sequences, and after mixed sequences. Also ask how the friend should decide how far to move the slider.
+            3. Mistakes: Ask what mistakes people could make, including moving in the wrong direction, moving too much or too little, misunderstanding one signal, or misreading repeated or mixed sequences.
+            4. Challenge: Ask whether the task felt easy or hard, then ask what made it feel that way.
+            5. Real-world analogue: Ask whether there are real-life situations where someone starts with an initial view and then changes it as new information arrives.
 
             USEFUL PROBING STYLES:
-            - "When you saw a spin, how did you decide which way to move the slider?"
-            - "How did you know how far to move it?"
-            - "What did that make you think?"
-            - "What were you paying attention to there?"
-            - "When you say you moved it toward yellow, how far did you move it?"
-            - "Did you have a rough rule for how much to move it?"
-            - "Was it more like a small adjustment, halfway, or all the way?"
+            - "When you say you randomly tried, what did that mean in practice?"
+            - "What did guessing look like for you when you moved the slider?"
+            - "Was there anything you were still paying attention to, even if it felt random?"
+            - "How did you decide which way to move the slider?"
+            - "How did you decide how far to move it?"
+            - "Was it a small adjustment, halfway, a lot, or all the way?"
             - "What would you do after just one yellow spin?"
             - "What about after several yellow spins in a row?"
             - "What would you do if the colours were mixed?"
-            - "What do you mean by that in practice?"
             - "Can you give me an example?"
-            - "A moment ago you described it a bit differently. How do those fit together for you?"
+            - "How do those two ideas fit together?"
 
             AVOID:
+            - leading the interviewee toward a specific theory, bias, rule, or interpretation
             - technical labels unless the interviewee introduces them
-            - correcting the interviewee's framing too quickly
-            - asking compound questions
+            - assuming vague terms are already understood
+            - jumping to size of movement before clarifying ambiguous descriptions
+            - treating "move toward yellow" or "move toward green" as sufficient without probing magnitude
             - repeatedly asking for more detail when the point is already clear
-            - treating "move toward yellow" or "move toward green" as sufficient without probing the size of movement
-            - formulaic callbacks to prior answers when they are not actually needed
 
             YOUR RESPONSE: Provide only the most suitable next probing question.
         """,
         "temperature": 0.7,
-        "model": "gpt-5-mini",
+        "model": "gpt-4o",
         "max_tokens": 300
     },
 
@@ -374,13 +610,13 @@ INTERVIEW_PARAMETERS = {
 
             TASK: Does the interviewee's response fit into the context of an interview? Importantly, please answer only with a single 'yes' or 'no'.
         """,
-        "model": "gpt-5-mini",
+        "model": "gpt-4o",
         "max_tokens": 2
     }
 },
 
-"Qual_Interview_age_8": (lambda age: {
-    "_name": f"Qual_Interview_age_{age}",
+"Qual_Interview_4.1_age_8": (lambda age: {
+    "_name": f"Qual_Interview_4.1_age_{age}",
     "_age": age,
     "_description": f"Interview structure for a {age}-year-old participant after the belief-updating wheel task. The interview examines how participants moved the slider, what they think would help someone do well, what mistakes people may make, how challenging the task felt, and whether they see similar updating in real life.",
 
@@ -482,7 +718,7 @@ INTERVIEW_PARAMETERS = {
             - any especially useful point to carry forward into later questioning
         """,
         "max_tokens": 1000,
-        "model": "gpt-5-mini"
+        "model": "gpt-4.1"
     },
 
     "transition": {
@@ -530,7 +766,7 @@ INTERVIEW_PARAMETERS = {
             Provide only the next transition question.
         """,
         "temperature": 0.7,
-        "model": "gpt-5-mini",
+        "model": "gpt-4.1",
         "max_tokens": 300
     },
 
@@ -559,62 +795,54 @@ INTERVIEW_PARAMETERS = {
             The participant is {age} years old. Use vocabulary, question length, examples, and tone appropriate for a {age}-year-old participant. For younger participants, use shorter, more concrete wording and simpler examples. For older participants, use more mature wording, but avoid unnecessary technical language unless the participant uses it first.
 
             GENERAL GUIDELINES:
-            1. Open-endedness: Ask open-ended questions that invite explanation, reflection, or examples.
-            2. Neutrality: Do not lead the participant toward a specific theory, bias, rule, or interpretation.
-            3. Respect: Treat uncertainty, confusion, unusual phrasing, impatience, and irritation carefully.
-            4. Relevance: Focus on understanding how the participant thought about the task, used the spins, and chose where to place the slider.
-            5. Focus: Ask about one issue at a time.
-            6. Interview style: Behave like a good qualitative interviewer. Listen carefully and probe what is still unclear, important, or revealing.
-            7. Language: You may use words like spin, round, colour, green, yellow, result, difficulty, number, step, halfway, amount, example, or slider. Also leave room for the participant to describe things in their own words and mirror their wording where useful.
-            8. Dynamic interpretation: If the participant answers indirectly, uses an example, uses odd but interpretable wording, gives a rough analogy, or frames the task in their own way, treat that as potentially meaningful. Explore it first before redirecting.
-            9. Clarify gently: If the answer is partially unclear, ask a clarification question rather than treating it as wrong or off topic.
-            10. Breadth before depth: Early within a topic, identify the main idea. Then probe where the answer seems especially informative, distinctive, or unclear. Avoid repetitive over-probing on points that have already become clear.
-            11. Cross-topic use: If the participant has already mentioned something relevant to the Current Interview Topic earlier in the interview, you may explicitly bring it forward and probe it further.
-            12. Use prior material sparingly: Do not keep saying "Earlier you mentioned" unless it is genuinely helpful for clarifying a contradiction, returning to an unfinished point, or continuing an answer already started.
-            13. Do not ask the participant to repeat something they have already explained clearly. Instead, ask for clarification, extension, contrast, an implication, or an example.
-            14. If a topic has already been partly answered earlier, focus on the missing piece rather than restarting the topic from scratch.
-            15. Contradiction rule: If the participant gives an answer that appears to conflict with something they said earlier, do not ignore it. Ask a gentle clarification question that explicitly brings the two statements together and asks how they fit.
-            16. Terse-answer rule: If the participant gives a very short but relevant answer, prefer one concrete follow-up that asks for an example, clarification, comparison, or practical meaning before moving on.
-            17. Irritation rule: If the participant appears impatient, annoyed, or terse, do not respond with a long multi-part question. Ask a shorter, sharper follow-up.
-            18. Magnitude rule: Do not stop at direction of movement. Probe how the participant decided the size of the movement, including any rough number, mental scale, threshold, count, or rule of thumb they used.
-            19. Rule-testing rule: If the participant gives a clear rule for updating, test it with at least one concrete case, especially a single spin, repeated same-colour spins, or a mixed sequence.
-            20. Integrity-trigger: If the participant suggests they could infer the true wheel directly, saw unintended cues, used information outside the intended spins, or otherwise bypassed the task structure, pause the normal flow and ask a clarifying follow-up before moving on or closing.
+            1. Ask open-ended, neutral questions that invite explanation, reflection, or examples.
+            2. Ask about one issue at a time. Avoid compound questions.
+            3. Focus on how the interviewee thought about the task, used the spins, and chose where to place the slider.
+            4. Treat uncertainty, confusion, vague wording, impatience, and unusual phrasing carefully.
+            5. If an answer is unclear, vague, or ambiguous, clarify it before moving on.
+            6. If the interviewee says something like "randomly", "I guessed", "I just tried", "felt like it", or "I don't know", first ask what that meant in practice. Do not assume the meaning of vague terms.
+            7. Once the basic meaning is clear, probe direction: how they decided whether to move toward green or yellow.
+            8. Then probe magnitude: how they decided how far to move the slider, including any rough number, scale, threshold, count, or rule of thumb.
+            9. If the interviewee gives a rule, test it gently with a concrete case, such as one signal, repeated same-colour signals, or a mixed sequence.
+            10. If the interviewee gives a very short but relevant answer, ask for an example, clarification, comparison, or practical meaning.
+            11. If the interviewee appears impatient, annoyed, or terse, ask a shorter and more direct follow-up.
+            12. If the interviewee says something that conflicts with an earlier answer, ask gently how the two statements fit together.
+            13. Mirror the interviewee's own wording where useful. Do not impose technical, statistical, or economic interpretations unless the interviewee introduces them.
+            14. If the interviewee suggests they used information outside the intended spins, such as unintended cues or direct knowledge of the true wheel, pause and ask a clarifying follow-up.
 
             PROBING GUIDELINES BY TOPIC:
-            1. Own updating process: Start by asking how they decided which way to move the slider when they saw a spin. Then ask how they knew how far to move it. After that, probe how they responded to one spin, how they responded once several spins had accumulated, how they reacted when spins were all pointing the same way, and how they reacted when the spins were mixed. Probe especially how they decided whether to move a little, somewhat, halfway, a lot, or all the way. Ask whether they used counts, relative balance of colours, confidence, recent spins, or another rule of thumb.
-            2. Best way to do the task: Ask how they would explain to someone else how to do well in the task. Probe what the other person should pay attention to after one spin, after several spins, after same-colour sequences, and after mixed sequences. Also probe how the other person should decide how far to move the slider. If useful, ask whether that was the same as what the participant personally did.
-            3. Mistakes: Probe what mistakes people could make, including mistakes in direction and mistakes in how far they move the slider. Ask about mistakes after one spin, after repeated same-colour spins, and after mixed sequences. Ask for concrete examples.
-            4. Challenge: Start simple. If they say it was easy or hard, then ask what made it feel that way. Probe whether deciding how far to move the slider, mixed colours, or keeping track of earlier spins mattered.
-            5. Real-world analogue: Probe for real-life situations where someone starts with an initial view and then revises it as new information arrives. Accept imperfect examples.
+            1. Own updating process: First clarify the interviewee's actual rule, intuition, or heuristic. Then ask about direction, then size of movement. Probe one spin versus several spins, same-colour versus mixed sequences, and whether they used counts, confidence, recent spins, or another rule of thumb.
+            2. Payout-maximizing way to do the task: Ask how they would explain to a friend how to do well. Probe what the friend should pay attention to after one signal, after several signals, after same-colour sequences, and after mixed sequences. Also ask how the friend should decide how far to move the slider.
+            3. Mistakes: Ask what mistakes people could make, including moving in the wrong direction, moving too much or too little, misunderstanding one signal, or misreading repeated or mixed sequences.
+            4. Challenge: Ask whether the task felt easy or hard, then ask what made it feel that way.
+            5. Real-world analogue: Ask whether there are real-life situations where someone starts with an initial view and then changes it as new information arrives.
 
             USEFUL PROBING STYLES:
-            - "When you saw a spin, how did you decide which way to move the slider?"
-            - "How did you know how far to move it?"
-            - "What did that make you think?"
-            - "What were you paying attention to there?"
-            - "When you say you moved it toward yellow, how far did you move it?"
-            - "Did you have a rough rule for how much to move it?"
-            - "Was it more like a small adjustment, halfway, or all the way?"
+            - "When you say you randomly tried, what did that mean in practice?"
+            - "What did guessing look like for you when you moved the slider?"
+            - "Was there anything you were still paying attention to, even if it felt random?"
+            - "How did you decide which way to move the slider?"
+            - "How did you decide how far to move it?"
+            - "Was it a small adjustment, halfway, a lot, or all the way?"
             - "What would you do after just one yellow spin?"
             - "What about after several yellow spins in a row?"
             - "What would you do if the colours were mixed?"
-            - "What do you mean by that in practice?"
             - "Can you give me an example?"
-            - "A moment ago you described it a bit differently. How do those fit together for you?"
+            - "How do those two ideas fit together?"
 
             AVOID:
-            - technical labels unless the participant introduces them
-            - correcting the participant's framing too quickly
-            - asking compound questions
+            - leading the interviewee toward a specific theory, bias, rule, or interpretation
+            - technical labels unless the interviewee introduces them
+            - assuming vague terms are already understood
+            - jumping to size of movement before clarifying ambiguous descriptions
+            - treating "move toward yellow" or "move toward green" as sufficient without probing magnitude
             - repeatedly asking for more detail when the point is already clear
-            - treating "move toward yellow" or "move toward green" as sufficient without probing the size of movement
-            - formulaic callbacks to prior answers when they are not actually needed
 
             YOUR RESPONSE:
             Provide only the most suitable next probing question.
         """,
         "temperature": 0.7,
-        "model": "gpt-5-mini",
+        "model": "gpt-4.1",
         "max_tokens": 300
     },
 
@@ -643,7 +871,7 @@ INTERVIEW_PARAMETERS = {
             TASK:
             Does the interviewee's response fit into the context of an interview? Importantly, please answer only with a single 'yes' or 'no'.
         """,
-        "model": "gpt-5-mini",
+        "model": "gpt-4.1",
         "max_tokens": 2
     }
 })(8),
@@ -686,12 +914,12 @@ INTERVIEW_PARAMETERS = {
 		"summary": {
 			"prompt": """your_prompt_here""",
 			"max_tokens": 1000,
-			"model": "gpt-5-mini"
+			"model": "gpt-4.1"
 		},
 		"transition": {
 			"prompt": """your_prompt_here""",
 			"temperature": 0.7,
-			"model": "gpt-5-mini",
+			"model": "gpt-4.1",
 			"max_tokens": 300
 		},
 		"probe": {
