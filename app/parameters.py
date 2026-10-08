@@ -91,8 +91,12 @@ previous parts of the interview between topic transitions (remember to set "summ
 Each of the above dictionaries should specify the following set of parameters:
 	- prompt (str): the prompt that describes the task and desired behavior of the agent (feel free to modify according to your needs)
 	- max_tokens (int): the maximum number of completion tokens the agent can generate in its response (default: 1000)
-	- temperature (float): the temperature parameter for the LLM (default: 0.9)
-	- model (str): the model to use for the agent (default: gpt-4o)
+	- temperature (float): the temperature parameter for the LLM (default: 0.9). Only used by GPT-4-era models
+	  (gpt-4o, gpt-4.1, ...); GPT-5 and GPT-6 models accept only their default temperature, so it is not sent to them.
+	- model (str): the model to use for the agent (default: gpt-4o). Any chat-completions model works, e.g. "gpt-4o",
+	  "gpt-4.1", "gpt-5.4", "gpt-6-sol", "gpt-6-luna".
+	- reasoning_effort (str, optional): GPT-5/GPT-6 models only. "none" (default, fastest and cheapest), "low",
+	  "medium" or "high". Ignored by GPT-4-era models.
 
 3. DETAILS ABOUT THE PROMPTS:
 The prompts for the AI agent include placeholder variables that are programmatically replaced based on the current state of the interview.
