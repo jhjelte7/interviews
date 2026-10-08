@@ -239,7 +239,7 @@ INTERVIEW_PARAMETERS = {
             - any especially useful point to carry forward into later questioning
         """,
         "max_tokens": 1000,
-        "model": "gpt-4.1"
+        "model": "gpt-6-sol"
     },
 
     "transition": {
@@ -282,7 +282,7 @@ INTERVIEW_PARAMETERS = {
             YOUR RESPONSE: Provide only the next transition question.
         """,
         "temperature": 0.7,
-        "model": "gpt-4o",
+        "model": "gpt-6-sol",
         "max_tokens": 300
     },
 
@@ -353,7 +353,7 @@ INTERVIEW_PARAMETERS = {
             YOUR RESPONSE: Provide only the most suitable next probing question.
         """,
         "temperature": 0.7,
-        "model": "gpt-4o",
+        "model": "gpt-6-sol",
         "max_tokens": 300
     },
 
@@ -381,7 +381,7 @@ INTERVIEW_PARAMETERS = {
 
             TASK: Does the interviewee's response fit into the context of an interview? Importantly, please answer only with a single 'yes' or 'no'.
         """,
-        "model": "gpt-4.1",
+        "model": "gpt-6-luna",
         "max_tokens": 2
     }
 },
@@ -483,7 +483,7 @@ INTERVIEW_PARAMETERS = {
             - any especially useful point to carry forward into later questioning
         """,
         "max_tokens": 1000,
-        "model": "gpt-4o"
+        "model": "gpt-6-sol"
     },
 
     "transition": {
@@ -526,7 +526,7 @@ INTERVIEW_PARAMETERS = {
             YOUR RESPONSE: Provide only the next transition question.
         """,
         "temperature": 0.7,
-        "model": "gpt-4o",
+        "model": "gpt-6-sol",
         "max_tokens": 300
     },
 
@@ -597,7 +597,7 @@ INTERVIEW_PARAMETERS = {
             YOUR RESPONSE: Provide only the most suitable next probing question.
         """,
         "temperature": 0.7,
-        "model": "gpt-4o",
+        "model": "gpt-6-sol",
         "max_tokens": 300
     },
 
@@ -625,7 +625,7 @@ INTERVIEW_PARAMETERS = {
 
             TASK: Does the interviewee's response fit into the context of an interview? Importantly, please answer only with a single 'yes' or 'no'.
         """,
-        "model": "gpt-4o",
+        "model": "gpt-6-luna",
         "max_tokens": 2
     }
 },
@@ -733,7 +733,7 @@ INTERVIEW_PARAMETERS = {
             - any especially useful point to carry forward into later questioning
         """,
         "max_tokens": 1000,
-        "model": "gpt-4.1"
+        "model": "gpt-6-sol"
     },
 
     "transition": {
@@ -781,7 +781,7 @@ INTERVIEW_PARAMETERS = {
             Provide only the next transition question.
         """,
         "temperature": 0.7,
-        "model": "gpt-4.1",
+        "model": "gpt-6-sol",
         "max_tokens": 300
     },
 
@@ -857,7 +857,7 @@ INTERVIEW_PARAMETERS = {
             Provide only the most suitable next probing question.
         """,
         "temperature": 0.7,
-        "model": "gpt-4.1",
+        "model": "gpt-6-sol",
         "max_tokens": 300
     },
 
@@ -886,7 +886,7 @@ INTERVIEW_PARAMETERS = {
             TASK:
             Does the interviewee's response fit into the context of an interview? Importantly, please answer only with a single 'yes' or 'no'.
         """,
-        "model": "gpt-4.1",
+        "model": "gpt-6-luna",
         "max_tokens": 2
     }
 })(8),
