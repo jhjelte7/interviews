@@ -31,3 +31,4 @@ wheels/
 data/
 .aws-sam/
 .venv/
+tests/sim_report*.md
