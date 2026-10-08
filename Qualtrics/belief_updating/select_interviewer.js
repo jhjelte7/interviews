@@ -12,10 +12,10 @@ Qualtrics.SurveyEngine.addOnPageSubmit(function (type) {
 	// which the interview question on the next page reads.
 	// The choice labels in Qualtrics carry the same keys, in this order.
 	var CONFIG_BY_CHOICE = {
-		1: "Qual_Interview_4.1",           // adults, English, current version
-		2: "Qual_Interview_4.1_DE",        // adults, German
-		3: "Qual_Interview_4.1_age_8",     // 8-year-olds, English
-		4: "Qual_Interview_4.0"            // adults, English, older version
+		1: "Qual_Interview_4.1_age_8",     // 8-year-olds, English
+		2: "Qual_Interview_4.1_age_8_DE",  // 8-year-olds, German
+		3: "Qual_Interview_4.2",           // adults, English
+		4: "Qual_Interview_4.2_DE"         // adults, German
 	};
 	var selected = this.getSelectedChoices();
 	if (selected.length > 0) {

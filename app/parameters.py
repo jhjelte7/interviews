@@ -952,54 +952,239 @@ INTERVIEW_PARAMETERS = {
 }
 
 
-################################################
-###   GERMAN-LANGUAGE VARIANT OF 4.1         ###
-################################################
-# "Qual_Interview_4.1_DE" reuses the full Qual_Interview_4.1 configuration (topics, prompts, models)
-# and overrides only what the interviewee sees, plus a language instruction for the AI agents.
-# The internal running summary stays in English so that coding of transcripts is unchanged.
-
 import copy
 
-_LANGUAGE_INSTRUCTION_DE = """
+################################################
+###   VERSION 4.2 (ADULTS)                   ###
+################################################
+# 4.2 gives the interviewer more leeway than 4.1: the topics and prompts describe the purpose and context
+# of the study in more depth, but prescribe fewer specific questions and rules, and ask for a warmer,
+# more appreciative tone. It takes up the feedback from the 29 May 2026 test round (one question at a
+# time, short off-topic message, opening sentence that explains the interview, no hypothesis-driven questions).
+
+_TASK_BACKGROUND_42 = """
+            THE TASK THE PARTICIPANT JUST COMPLETED:
+            In each round, one of two hidden wheels was secretly selected: Wheel A, which is mostly green, and Wheel B, which is mostly yellow. The participant first set a slider to indicate which wheel they thought was in play. The wheel was then spun six times. After each spin, the participant saw the colour and could move the slider again, anywhere between "certainly Wheel A" and "certainly Wheel B". The task was repeated for several rounds, and payment depended on how accurate the slider positions were.
+"""
+
+_STUDY_CONTEXT_42 = """
+            WHY WE ARE INTERVIEWING:
+            We are economists studying how people update their beliefs when new information arrives. Statistical theory says how much the slider should move after each spin, but people rarely do exactly that: some move too little, some too much, some count colours, some go with a gut feeling, some anchor on their first guess, some react mostly to the latest spin, and many find it hard to say what they did at all. We do not want to test a particular theory in this interview. We want to hear, in the participant's own words, how they experienced the task and what they were doing when they moved the slider, so that we can discover patterns we have not thought of. Every honest answer is useful, including "I don't know" and "I just guessed", as long as we gently find out what that meant in practice.
+"""
+
+_INTERVIEW_STYLE_42 = """
+            HOW TO INTERVIEW:
+            - Be warm, patient and appreciative. The participant is giving us their time; let that show in your tone, for example with a brief thank-you or acknowledgement when they have given a thoughtful answer. Keep it natural and do not thank them in every single message.
+            - Ask exactly one question at a time. Keep questions short and in plain, everyday language. Never stack several questions into one message.
+            - Be curious rather than directive. Follow what the participant finds important. Stay close to their own words and images; if they use a metaphor or an unusual description, explore it instead of translating it into technical terms.
+            - Do not lead. Do not suggest that a strategy is right or wrong, and do not steer towards a hypothesis of ours (for example that people move the slider back to the middle after mixed spins). Ask what they did, not whether they did a particular thing.
+            - Clarify vague answers before moving on, but gently: when someone says "randomly" or "by feeling", ask what that looked like in a concrete round.
+            - Where it fits naturally, be interested in both the direction and the size of slider movements, in how one spin compared to several spins in a row, and in what happened when the colours were mixed. These are things we care about, but treat them as areas of curiosity, not as a checklist to complete.
+            - Respect the participant. If they are brief, impatient or say they would rather move on, keep your next question short or move to the next topic. Do not repeat a question they have already answered.
+            - Do not start your message with "Interviewer:" or any other label. Write only the message itself.
+"""
+
+INTERVIEW_PARAMETERS["Qual_Interview_4.2"] = {
+    "_name": "Qual_Interview_4.2",
+    "_description": "Adult interview after the belief-updating wheel task, version 4.2. Compared with 4.1 the interviewer gets more leeway: richer context about the study and the task, fewer prescribed questions, and a warmer, more appreciative tone.",
+    "moderate_answers": True,
+    "moderate_questions": True,
+    "summarize": True,
+    "max_flags_allowed": 3,
+
+    "first_question": "Thank you for completing the task. In this short interview we would like to understand how you went about it. There are no right or wrong answers, and you can answer in your own words. To start, how did you decide where to put the slider when you saw the results of the spins?",
+
+    "interview_plan": [
+        {
+            "topic": "The participant's own way of doing the task. We want a rich picture of what went on in their head while the wheel was spinning: how they read each spin, what made them move the slider one way or the other, how they decided how much to move it, whether one spin and a run of spins felt different, what they did when the colours were mixed, and whether their way of doing it changed over the rounds. Let the participant lead; use a concrete round as an anchor when that helps. The goal is to understand their rule, feeling or habit well enough that someone else could describe it.",
+            "length": 5
+        },
+        {
+            "topic": "What the participant thinks is the best way to do the task, and where people go wrong. Ask how they would explain the task to a friend who wants to earn as much as possible, and what they think people commonly get wrong. Stay in that advice-giving perspective rather than switching back to the participant's own behaviour. If their advice differs from what they did themselves, you may ask about that difference with curiosity, not criticism.",
+            "length": 3
+        },
+        {
+            "topic": "How the task felt. Ask whether it felt easy or hard overall, and what made it feel that way. Keep this short unless the participant has a lot to say.",
+            "length": 2
+        },
+        {
+            "topic": "Whether the participant sees anything similar in their everyday life: situations where they start with a hunch and then change their mind as more information comes in. Any example is welcome, however loose. If nothing comes to mind, accept that and do not press.",
+            "length": 2
+        }
+    ],
+
+    "closing_questions": [
+        "Before we finish, is there anything about how you approached the task that we have not talked about yet and that you would like to add?"
+    ],
+
+    "termination_message": "Thank you very much for your time. The interview is over. Please proceed to the next page.---END---",
+    "flagged_message": "Unfortunately several of your messages could not be processed as answers to the interview. Thank you for your time; please proceed to the next page.---END---",
+    "off_topic_message": "Sorry, I did not quite understand that. Could you tell me a bit more about what you mean?",
+    "end_of_interview_message": "Thank you very much. Hearing how you approached the task in your own words is exactly what helps our research. Please proceed to the next page.---END---",
+
+    "summary": {
+        "prompt": """
+            CONTEXT: You are an AI assisting economists with a qualitative interview study. You keep a running summary of a semi-structured interview with an adult participant about a repeated wheel task.
+""" + _TASK_BACKGROUND_42 + """
+            INPUTS:
+            A. Interview Plan:
+            {topics}
+
+            B. Previous Conversation Summary:
+            {summary}
+
+            C. Current Topic:
+            {current_topic}
+
+            D. Current Conversation:
+            {current_topic_history}
+
+            TASK:
+            Update the running summary so that it captures, in the participant's own words where possible: how they moved the slider and why (direction and size, one spin versus several, mixed colours, any change over rounds); what they think the best way to do the task is and what mistakes people make; how hard the task felt; and any everyday situations they compare it to. Integrate the Current Conversation into the Previous Conversation Summary without repeating yourself, keep the chronology, preserve metaphors and unusual phrasings, and note contradictions or statements worth returning to. Do not add statistical or economic interpretation the participant did not give.
+
+            YOUR RESPONSE:
+            A concise summary under the headings: 1. Own approach  2. Best way and mistakes  3. Difficulty  4. Everyday parallels  5. Open points to revisit. Under each heading say briefly what has been said and whether the area is covered, partly covered or not yet covered.
+        """,
+        "max_tokens": 1000,
+        "model": "gpt-6-sol"
+    },
+
+    "transition": {
+        "prompt": """
+            CONTEXT: You are an AI conducting a qualitative research interview with an adult participant who has just completed a decision task.
+""" + _TASK_BACKGROUND_42 + _STUDY_CONTEXT_42 + """
+            INPUTS:
+            A. Previous Conversation Summary:
+            {summary}
+
+            B. Current Conversation:
+            {current_topic_history}
+
+            C. Next Interview Topic:
+            {next_interview_topic}
+
+            TASK:
+            Move the conversation on to the next interview topic with one natural, open question. If the participant has already touched on the next topic, do not introduce it as if it were new; pick up what they said and go deeper or ask about the part that is still missing. A short, genuine acknowledgement of what they have just told you is welcome before the question, but keep the whole message brief.
+""" + _INTERVIEW_STYLE_42 + """
+            YOUR RESPONSE: Only the next message to the participant.
+        """,
+        "temperature": 0.7,
+        "model": "gpt-6-sol",
+        "max_tokens": 300
+    },
+
+    "probe": {
+        "prompt": """
+            CONTEXT: You are an AI conducting a qualitative research interview with an adult participant who has just completed a decision task.
+""" + _TASK_BACKGROUND_42 + _STUDY_CONTEXT_42 + """
+            INPUTS:
+            A. Previous Conversation Summary:
+            {summary}
+
+            B. Current Interview Topic:
+            {current_topic}
+
+            C. Current Conversation:
+            {current_topic_history}
+
+            TASK:
+            Write the next follow-up question within the current topic. Build on the participant's last answer: clarify what is unclear, invite an example, or go one level deeper into how they thought about it. Choose the one follow-up that will teach us the most about how this particular person updated their beliefs. If the current topic is already well covered, a short question that rounds it off is better than digging further.
+""" + _INTERVIEW_STYLE_42 + """
+            YOUR RESPONSE: Only the next message to the participant.
+        """,
+        "temperature": 0.7,
+        "model": "gpt-6-sol",
+        "max_tokens": 300
+    },
+
+    "moderator": copy.deepcopy(INTERVIEW_PARAMETERS["Qual_Interview_4.1"]["moderator"]),
+}
+
+
+################################################
+###   GERMAN-LANGUAGE VARIANTS               ###
+################################################
+# Each German configuration reuses the full English configuration (topics, prompts, models) and overrides
+# only what the participant sees, plus a language instruction for the AI agents. The internal running
+# summary stays in English so that coding of transcripts is unchanged.
+
+_LANGUAGE_INSTRUCTION_DE_ADULT = """
             LANGUAGE:
-            The interview is conducted in German. The interviewee writes in German and every question you produce must be written in natural, polite German using the formal "Sie". Keep the wording simple and conversational. Use "Rad" for wheel, "Dreh" or "Drehung" for spin, "Farbe" for colour, "grün" and "gelb" for the colours, "Schieberegler" or "Regler" for slider, "Runde" for round and "Auszahlung" for payout. Never switch to English, even if the interviewee does.
+            The interview is conducted in German. The participant writes in German and every message you produce must be written in natural, polite German using the formal "Sie". Keep the wording simple and conversational. Use "Rad" for wheel, "Drehung" for spin, "Farbe" for colour, "grün" and "gelb" for the colours, "Regler" for slider, "Runde" for round and "Auszahlung" for payout. Never switch to English, even if the participant does.
+"""
+
+_LANGUAGE_INSTRUCTION_DE_CHILD = """
+            LANGUAGE:
+            The interview is conducted in German with a child. The participant writes in German and every message you produce must be written in simple, friendly German using the informal "du". Use short sentences and everyday words a child knows. Use "Rad" for wheel, "Drehung" for spin, "Farbe" for colour, "grün" and "gelb" for the colours, "Regler" for slider and "Runde" for round. Never switch to English, even if the participant does.
 """
 
 _LANGUAGE_INSTRUCTION_SUMMARY_DE = """
             LANGUAGE:
-            The interview is conducted in German, so the conversation below is in German. Write the summary in English, but keep short verbatim German quotes of the interviewee's own wording where it is useful for later coding.
+            The interview is conducted in German, so the conversation below is in German. Write the summary in English, but keep short verbatim German quotes of the participant's own wording where it is useful for later coding.
 """
 
 _LANGUAGE_INSTRUCTION_MODERATOR_DE = """
             LANGUAGE: The conversation is in German. Judge relevance in the same way as you would for an English conversation.
 """
 
-def _german_variant(base: dict) -> dict:
+def _german_variant(base: dict, name: str, texts: dict, language_instruction: str) -> dict:
+    """ Return a German copy of `base`: participant-facing texts from `texts`, language instruction added to every agent prompt. """
     cfg = copy.deepcopy(base)
-    cfg["_name"] = "Qual_Interview_4.1_DE"
+    cfg["_name"] = name
     cfg["_description"] = base["_description"] + " German-language version: identical interview plan and prompts, but the interview is conducted in German."
-
-    cfg["first_question"] = "Um ganz allgemein zu beginnen: Wenn Sie das Ergebnis einer Drehung gesehen haben, wie haben Sie entschieden, in welche Richtung Sie den Regler bewegen?"
-    cfg["closing_questions"] = [
-        "Bevor wir weitermachen: Gab es noch etwas anderes, worauf Sie geachtet haben, als Sie entschieden haben, wo Sie den Regler setzen?",
-        "Bevor wir zum Ende kommen: Gibt es noch etwas dazu, wie Sie an diese Aufgabe herangegangen sind, worüber wir noch nicht gesprochen haben?"
-    ]
-    cfg["termination_message"] = "Das Interview ist beendet. Bitte gehen Sie zur nächsten Seite weiter.---END---"
-    cfg["flagged_message"] = "Bitte beachten Sie: Zu viele Ihrer Nachrichten wurden als ungewöhnliche Eingaben eingestuft. Bitte gehen Sie zur nächsten Seite weiter.---END---"
-    cfg["off_topic_message"] = "Ich habe Ihre Antwort möglicherweise nicht ganz verstanden. Bitte versuchen Sie, noch einmal in Ihren eigenen Worten zu antworten. Wenn Ihre Antwort nur indirekt mit der Frage zusammenhängt, zum Beispiel über ein Beispiel oder einen Vergleich, ist das völlig in Ordnung."
-    cfg["end_of_interview_message"] = "Vielen Dank, dass Sie erklärt haben, wie Sie an die Aufgabe herangegangen sind. Ihre Antworten sind für unsere Forschung sehr wertvoll. Bitte gehen Sie zur nächsten Seite weiter.---END---"
-
-    # Insert the language instruction right before each agent's "YOUR RESPONSE" / "TASK:" line so it is read as a guideline.
-    for agent, instruction in (("transition", _LANGUAGE_INSTRUCTION_DE), ("probe", _LANGUAGE_INSTRUCTION_DE), ("summary", _LANGUAGE_INSTRUCTION_SUMMARY_DE)):
+    cfg.update(texts)
+    for agent, instruction in (("transition", language_instruction), ("probe", language_instruction), ("summary", _LANGUAGE_INSTRUCTION_SUMMARY_DE)):
         prompt = cfg[agent]["prompt"]
         marker = "            YOUR RESPONSE"
-        assert marker in prompt, f"marker not found in {agent} prompt"
+        assert marker in prompt, f"marker not found in {agent} prompt of {name}"
         cfg[agent]["prompt"] = prompt.replace(marker, instruction + "\n" + marker, 1)
     prompt = cfg["moderator"]["prompt"]
-    marker = "            TASK: Does the interviewee's response"
-    assert marker in prompt, "marker not found in moderator prompt"
-    cfg["moderator"]["prompt"] = prompt.replace(marker, _LANGUAGE_INSTRUCTION_MODERATOR_DE + "\n" + marker, 1)
+    marker = "            TASK:"
+    i = prompt.rfind(marker)
+    assert i >= 0, f"marker not found in moderator prompt of {name}"
+    cfg["moderator"]["prompt"] = prompt[:i] + _LANGUAGE_INSTRUCTION_MODERATOR_DE + "\n" + prompt[i:]
     return cfg
 
-INTERVIEW_PARAMETERS["Qual_Interview_4.1_DE"] = _german_variant(INTERVIEW_PARAMETERS["Qual_Interview_4.1"])
+INTERVIEW_PARAMETERS["Qual_Interview_4.1_DE"] = _german_variant(
+    INTERVIEW_PARAMETERS["Qual_Interview_4.1"], "Qual_Interview_4.1_DE",
+    {
+        "first_question": "Um ganz allgemein zu beginnen: Wenn Sie das Ergebnis einer Drehung gesehen haben, wie haben Sie entschieden, in welche Richtung Sie den Regler bewegen?",
+        "closing_questions": [
+            "Bevor wir weitermachen: Gab es noch etwas anderes, worauf Sie geachtet haben, als Sie entschieden haben, wo Sie den Regler setzen?",
+            "Bevor wir zum Ende kommen: Gibt es noch etwas dazu, wie Sie an diese Aufgabe herangegangen sind, worüber wir noch nicht gesprochen haben?"
+        ],
+        "termination_message": "Das Interview ist beendet. Bitte gehen Sie zur nächsten Seite weiter.---END---",
+        "flagged_message": "Bitte beachten Sie: Zu viele Ihrer Nachrichten wurden als ungewöhnliche Eingaben eingestuft. Bitte gehen Sie zur nächsten Seite weiter.---END---",
+        "off_topic_message": "Ich habe Ihre Antwort möglicherweise nicht ganz verstanden. Bitte versuchen Sie, noch einmal in Ihren eigenen Worten zu antworten. Wenn Ihre Antwort nur indirekt mit der Frage zusammenhängt, zum Beispiel über ein Beispiel oder einen Vergleich, ist das völlig in Ordnung.",
+        "end_of_interview_message": "Vielen Dank, dass Sie erklärt haben, wie Sie an die Aufgabe herangegangen sind. Ihre Antworten sind für unsere Forschung sehr wertvoll. Bitte gehen Sie zur nächsten Seite weiter.---END---",
+    },
+    _LANGUAGE_INSTRUCTION_DE_ADULT)
+
+INTERVIEW_PARAMETERS["Qual_Interview_4.1_age_8_DE"] = _german_variant(
+    INTERVIEW_PARAMETERS["Qual_Interview_4.1_age_8"], "Qual_Interview_4.1_age_8_DE",
+    {
+        "first_question": "Wenn du gesehen hast, welche Farbe beim Drehen gekommen ist: Wie hast du entschieden, wohin du den Regler schiebst?",
+        "closing_questions": [
+            "Bevor wir weitermachen: Gab es noch etwas, worauf du geachtet hast, als du den Regler verschoben hast?",
+            "Bevor wir fertig sind: Gibt es noch etwas dazu, wie du die Aufgabe gemacht hast, worüber wir noch nicht gesprochen haben?"
+        ],
+        "termination_message": "Das Interview ist zu Ende. Bitte geh zur nächsten Seite weiter.---END---",
+        "flagged_message": "Leider konnten wir zu viele deiner Nachrichten nicht als Antworten verstehen. Bitte geh zur nächsten Seite weiter.---END---",
+        "off_topic_message": "Das habe ich nicht ganz verstanden. Kannst du es noch einmal mit deinen eigenen Worten erklären? Ein Beispiel ist auch völlig in Ordnung.",
+        "end_of_interview_message": "Vielen Dank, dass du erklärt hast, wie du die Aufgabe gemacht hast. Deine Antworten helfen uns sehr. Bitte geh zur nächsten Seite weiter.---END---",
+    },
+    _LANGUAGE_INSTRUCTION_DE_CHILD)
+
+INTERVIEW_PARAMETERS["Qual_Interview_4.2_DE"] = _german_variant(
+    INTERVIEW_PARAMETERS["Qual_Interview_4.2"], "Qual_Interview_4.2_DE",
+    {
+        "first_question": "Vielen Dank, dass Sie die Aufgabe bearbeitet haben. In diesem kurzen Interview möchten wir verstehen, wie Sie dabei vorgegangen sind. Es gibt keine richtigen oder falschen Antworten, und Sie können in Ihren eigenen Worten antworten. Zum Einstieg: Wie haben Sie entschieden, wo Sie den Regler setzen, wenn Sie die Ergebnisse der Drehungen gesehen haben?",
+        "closing_questions": [
+            "Bevor wir zum Ende kommen: Gibt es noch etwas dazu, wie Sie an die Aufgabe herangegangen sind, worüber wir noch nicht gesprochen haben und das Sie gern ergänzen möchten?"
+        ],
+        "termination_message": "Vielen Dank für Ihre Zeit. Das Interview ist beendet. Bitte gehen Sie zur nächsten Seite weiter.---END---",
+        "flagged_message": "Leider konnten mehrere Ihrer Nachrichten nicht als Antworten im Interview verarbeitet werden. Vielen Dank für Ihre Zeit; bitte gehen Sie zur nächsten Seite weiter.---END---",
+        "off_topic_message": "Entschuldigung, das habe ich nicht ganz verstanden. Könnten Sie mir etwas genauer sagen, was Sie meinen?",
+        "end_of_interview_message": "Vielen Dank! Zu hören, wie Sie die Aufgabe in Ihren eigenen Worten angegangen sind, ist genau das, was unserer Forschung hilft. Bitte gehen Sie zur nächsten Seite weiter.---END---",
+    },
+    _LANGUAGE_INSTRUCTION_DE_ADULT)
