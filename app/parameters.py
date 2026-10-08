@@ -946,3 +946,56 @@ INTERVIEW_PARAMETERS = {
 		}
 	},
 }
+
+
+################################################
+###   GERMAN-LANGUAGE VARIANT OF 4.1         ###
+################################################
+# "Qual_Interview_4.1_DE" reuses the full Qual_Interview_4.1 configuration (topics, prompts, models)
+# and overrides only what the interviewee sees, plus a language instruction for the AI agents.
+# The internal running summary stays in English so that coding of transcripts is unchanged.
+
+import copy
+
+_LANGUAGE_INSTRUCTION_DE = """
+            LANGUAGE:
+            The interview is conducted in German. The interviewee writes in German and every question you produce must be written in natural, polite German using the formal "Sie". Keep the wording simple and conversational. Use "Rad" for wheel, "Dreh" or "Drehung" for spin, "Farbe" for colour, "grün" and "gelb" for the colours, "Schieberegler" or "Regler" for slider, "Runde" for round and "Auszahlung" for payout. Never switch to English, even if the interviewee does.
+"""
+
+_LANGUAGE_INSTRUCTION_SUMMARY_DE = """
+            LANGUAGE:
+            The interview is conducted in German, so the conversation below is in German. Write the summary in English, but keep short verbatim German quotes of the interviewee's own wording where it is useful for later coding.
+"""
+
+_LANGUAGE_INSTRUCTION_MODERATOR_DE = """
+            LANGUAGE: The conversation is in German. Judge relevance in the same way as you would for an English conversation.
+"""
+
+def _german_variant(base: dict) -> dict:
+    cfg = copy.deepcopy(base)
+    cfg["_name"] = "Qual_Interview_4.1_DE"
+    cfg["_description"] = base["_description"] + " German-language version: identical interview plan and prompts, but the interview is conducted in German."
+
+    cfg["first_question"] = "Um ganz allgemein zu beginnen: Wenn Sie das Ergebnis einer Drehung gesehen haben, wie haben Sie entschieden, in welche Richtung Sie den Regler bewegen?"
+    cfg["closing_questions"] = [
+        "Bevor wir weitermachen: Gab es noch etwas anderes, worauf Sie geachtet haben, als Sie entschieden haben, wo Sie den Regler setzen?",
+        "Bevor wir zum Ende kommen: Gibt es noch etwas dazu, wie Sie an diese Aufgabe herangegangen sind, worüber wir noch nicht gesprochen haben?"
+    ]
+    cfg["termination_message"] = "Das Interview ist beendet. Bitte gehen Sie zur nächsten Seite weiter.---END---"
+    cfg["flagged_message"] = "Bitte beachten Sie: Zu viele Ihrer Nachrichten wurden als ungewöhnliche Eingaben eingestuft. Bitte gehen Sie zur nächsten Seite weiter.---END---"
+    cfg["off_topic_message"] = "Ich habe Ihre Antwort möglicherweise nicht ganz verstanden. Bitte versuchen Sie, noch einmal in Ihren eigenen Worten zu antworten. Wenn Ihre Antwort nur indirekt mit der Frage zusammenhängt, zum Beispiel über ein Beispiel oder einen Vergleich, ist das völlig in Ordnung."
+    cfg["end_of_interview_message"] = "Vielen Dank, dass Sie erklärt haben, wie Sie an die Aufgabe herangegangen sind. Ihre Antworten sind für unsere Forschung sehr wertvoll. Bitte gehen Sie zur nächsten Seite weiter.---END---"
+
+    # Insert the language instruction right before each agent's "YOUR RESPONSE" / "TASK:" line so it is read as a guideline.
+    for agent, instruction in (("transition", _LANGUAGE_INSTRUCTION_DE), ("probe", _LANGUAGE_INSTRUCTION_DE), ("summary", _LANGUAGE_INSTRUCTION_SUMMARY_DE)):
+        prompt = cfg[agent]["prompt"]
+        marker = "            YOUR RESPONSE"
+        assert marker in prompt, f"marker not found in {agent} prompt"
+        cfg[agent]["prompt"] = prompt.replace(marker, instruction + "\n" + marker, 1)
+    prompt = cfg["moderator"]["prompt"]
+    marker = "            TASK: Does the interviewee's response"
+    assert marker in prompt, "marker not found in moderator prompt"
+    cfg["moderator"]["prompt"] = prompt.replace(marker, _LANGUAGE_INSTRUCTION_MODERATOR_DE + "\n" + marker, 1)
+    return cfg
+
+INTERVIEW_PARAMETERS["Qual_Interview_4.1_DE"] = _german_variant(INTERVIEW_PARAMETERS["Qual_Interview_4.1"])
