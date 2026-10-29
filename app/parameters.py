@@ -1003,14 +1003,10 @@ INTERVIEW_PARAMETERS["Qual_Interview_4.2"] = {
         },
         {
             "topic": "What the participant thinks is the best way to do the task. Ask how they would explain the task to a friend who wants to earn as much as possible: what the friend should pay attention to and how they should decide where to put the slider. Stay in that advice-giving perspective rather than switching back to the participant's own behaviour. If their advice differs from what they did themselves, you may ask about that difference with curiosity, not criticism. Do not ask about mistakes here; they are the next topic.",
-            "length": 2
-        },
-        {
-            "topic": "Mistakes that other people might make in this task. Ask what the participant thinks other participants commonly get wrong when moving the slider, for example after a single spin, after several spins of the same colour, or when the colours are mixed, but let the participant name the mistakes first and do not suggest any. Participants may see more than one mistake: first explore the mistake they mention in depth (what it looks like on the slider and why people make it), and then ask whether they can think of any other mistakes. Keep the focus on other people rather than on the participant's own performance, and invite a concrete example. A natural opening is: 'What mistakes do you think other people might make in this task?'",
             "length": 3
         },
         {
-            "topic": "How the task felt. Ask whether it felt easy or hard overall, and what made it feel that way. Keep this short unless the participant has a lot to say.",
+            "topic": "Mistakes that other people might make in this task. Ask what the participant thinks other participants commonly get wrong when moving the slider, for example after a single spin, after several spins of the same colour, or when the colours are mixed, but let the participant name the mistakes first and do not suggest any. Participants may see more than one mistake: first explore the mistake they mention in depth (what it looks like on the slider and why people make it), and then ask whether they can think of any other mistakes. Keep the focus on other people rather than on the participant's own performance, and invite a concrete example. A natural opening is: 'What mistakes do you think other people might make in this task?'",
             "length": 2
         },
         {
@@ -1046,10 +1042,10 @@ INTERVIEW_PARAMETERS["Qual_Interview_4.2"] = {
             {current_topic_history}
 
             TASK:
-            Update the running summary so that it captures, in the participant's own words where possible: how they moved the slider and why (direction and size, one spin versus several, mixed colours, any change over rounds); what they would advise a friend to do; what mistakes they think other people make; how hard the task felt; and any everyday situations they compare it to. Integrate the Current Conversation into the Previous Conversation Summary without repeating yourself, keep the chronology, preserve metaphors and unusual phrasings, and note contradictions or statements worth returning to. Do not add statistical or economic interpretation the participant did not give.
+            Update the running summary so that it captures, in the participant's own words where possible: how they moved the slider and why (direction and size, one spin versus several, mixed colours, any change over rounds); what they would advise a friend to do; what mistakes they think other people make; and any everyday situations they compare it to. Integrate the Current Conversation into the Previous Conversation Summary without repeating yourself, keep the chronology, preserve metaphors and unusual phrasings, and note contradictions or statements worth returning to. Do not add statistical or economic interpretation the participant did not give.
 
             YOUR RESPONSE:
-            A concise summary under the headings: 1. Own approach  2. Advice to a friend  3. Mistakes others make  4. Difficulty  5. Everyday parallels  6. Open points to revisit. Under each heading say briefly what has been said and whether the area is covered, partly covered or not yet covered.
+            A concise summary under the headings: 1. Own approach  2. Advice to a friend  3. Mistakes others make  4. Everyday parallels  5. Open points to revisit. Under each heading say briefly what has been said and whether the area is covered, partly covered or not yet covered.
         """,
         "max_tokens": 1000,
         "model": "gpt-6-sol"
