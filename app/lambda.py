@@ -131,7 +131,14 @@ def handler(event, context):
     request = json.loads(event.get('body', '{}'))
     payload = request.get('payload', {})
     if request.get('route') == 'transcribe':
-        response['body'] = json.dumps(transcribe(payload['audio']))
+        response['body'] = json.dumps(
+            transcribe(
+                payload['audio'],
+                interview_id=payload.get('interview_id'),
+                language=payload.get('language'),
+                mime_type=payload.get('mime_type')
+            )
+        )
     elif request.get('route') == 'next':
         response['body'] = json.dumps(
             next_question(

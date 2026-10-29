@@ -54,10 +54,15 @@ def retrieve_sessions(sessions:list=None) -> dict:
     """ Return specified or all existing interview sessions. """
     return db.retrieve_sessions(sessions)
 
-def transcribe(audio:str) -> dict:
-    """ Return audio file transcription using OpenAI Whisper API """
-    logging.critical(f"Audio is: {type(audio)}...")
-    transcription = agent.transcribe(audio)
+def transcribe(audio:str, interview_id:str=None, language:str=None, mime_type:str=None) -> dict:
+    """
+    Return audio file transcription using the OpenAI transcription API. The language is taken from
+    `language` if given, otherwise from the interview configuration's "language" key (default "en").
+    """
+    if not language and interview_id in INTERVIEW_PARAMETERS:
+        language = INTERVIEW_PARAMETERS[interview_id].get('language', 'en')
+    logging.info(f"Transcribing {len(audio or '')} base64 characters ({mime_type}), language '{language}'")
+    transcription = agent.transcribe(audio, language=language, mime_type=mime_type)
     logging.info(f"Returning transcription text: '{transcription}'")
     return {'transcription':transcription}
 

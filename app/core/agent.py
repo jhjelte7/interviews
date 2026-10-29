@@ -19,16 +19,23 @@ class LLMAgent(object):
         """ Load interview guidelines for prompt construction. """
         self.parameters = parameters
 
-    def transcribe(self, audio) -> str:
-        """ Transcribe audio file. """
-        audio_file = BytesIO(b64decode(audio))
-        audio_file.name = "audio.webm"
+    # File extension per recorded MIME type: Chrome/Firefox record webm, Safari (iPhone/Mac) records mp4.
+    AUDIO_EXTENSIONS = {"audio/webm": "webm", "audio/mp4": "mp4", "audio/ogg": "ogg", "audio/mpeg": "mp3", "audio/wav": "wav"}
 
-        response = self.client.audio.transcriptions.create(
-          model="whisper-1", 
-          file=audio_file,
-          language="en" # English language input
-        )
+    def transcribe(self, audio, language:str=None, mime_type:str=None, model:str="gpt-transcribe") -> str:
+        """
+        Transcribe a base64-encoded audio recording. `language` is an ISO-639-1 code ("de", "en");
+        if None the model detects the language itself. It must not be forced to a language other
+        than the one spoken, because the model then translates instead of transcribing.
+        """
+        audio_file = BytesIO(b64decode(audio))
+        base_type = (mime_type or "audio/webm").split(";")[0].strip().lower()
+        audio_file.name = "audio." + self.AUDIO_EXTENSIONS.get(base_type, "webm")
+
+        kwargs = {"model": model, "file": audio_file}
+        if language:
+            kwargs["language"] = language
+        response = self.client.audio.transcriptions.create(**kwargs)
         return response.text
 
     @staticmethod
