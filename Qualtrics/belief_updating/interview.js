@@ -110,6 +110,21 @@ Qualtrics.SurveyEngine.addOnload(function () {
 	var waitingForReply = false;     // true while the interviewer's next question is loading
 	var interviewEnded = false;
 
+	// How the current answer was entered, sent with the answer (input_mode) and counted in embedded data:
+	// typed | spoken (recording(s) only, unchanged) | spoken_edited (recording, then edited) | mixed (typed, then recorded)
+	var voiceUsed = false, typedBeforeVoice = false, textAfterVoice = "";
+	function currentInputMode() {
+		if (!voiceUsed) return "typed";
+		if (typedBeforeVoice) return "mixed";
+		return inputField.value.trim() === textAfterVoice.trim() ? "spoken" : "spoken_edited";
+	}
+	function countInputMode(mode) {
+		// Embedded data fields interview_answers_typed / _spoken / _spoken_edited / _mixed (declared in the survey flow)
+		var field = "interview_answers_" + mode;
+		var n = parseInt(Qualtrics.SurveyEngine.getEmbeddedData(field), 10) || 0;
+		Qualtrics.SurveyEngine.setEmbeddedData(field, n + 1);
+	}
+
 	function setRecordState(state) {
 		recordState = state;
 		recordButton.innerText = state === "recording" ? TEXT.stop : state === "transcribing" ? TEXT.transcribing : TEXT.record;
@@ -195,7 +210,10 @@ Qualtrics.SurveyEngine.addOnload(function () {
 					var transcript = ((data && data.transcription) || "").trim();
 					if (transcript) {
 						var typed = inputField.value.trim();
+						if (!voiceUsed && typed) typedBeforeVoice = true;
 						inputField.value = typed ? typed + " " + transcript : transcript;
+						voiceUsed = true;
+						textAfterVoice = inputField.value;
 						inputField.focus();
 					} else {
 						showNotice(TEXT.transcribeError);
@@ -267,6 +285,11 @@ Qualtrics.SurveyEngine.addOnload(function () {
 		var userMessage = inputField.value.trim();
 		// Take action only for non-empty messages.
 		if (userMessage) {
+			// Record how this answer was entered, then reset for the next answer
+			var inputMode = currentInputMode();
+			countInputMode(inputMode);
+			voiceUsed = false; typedBeforeVoice = false; textAfterVoice = "";
+
 			// Clear the input field
 			inputField.value = "";
 
@@ -297,6 +320,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
 					route: "next",
 					payload: {
 						user_message: userMessage,
+						input_mode: inputMode,
 						session_id: userID,
 						interview_id: interviewID
 					}

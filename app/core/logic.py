@@ -66,7 +66,7 @@ def transcribe(audio:str, interview_id:str=None, language:str=None, mime_type:st
     logging.info(f"Returning transcription text: '{transcription}'")
     return {'transcription':transcription}
 
-def next_question(session_id:str, interview_id:str, user_message:str=None) -> dict:
+def next_question(session_id:str, interview_id:str, user_message:str=None, input_mode:str=None) -> dict:
     """
     Process user message and generate response by the AI-interviewer.
 
@@ -74,6 +74,7 @@ def next_question(session_id:str, interview_id:str, user_message:str=None) -> di
         session_id: (str) unique interview session ID
         user_message: (str) interviewee response
         interview_id: (str) containing interview guidelines index
+        input_mode: (str, optional) how the answer was entered: typed, spoken, spoken_edited or mixed
     Returns:
         response: (dict) containing `message` from interviewer
     """
@@ -121,7 +122,7 @@ def next_question(session_id:str, interview_id:str, user_message:str=None) -> di
     Note this happens *after* security checks such that
     flagged messages are *not* added to interview history.
     """
-    interview.add_chat_to_session(user_message, type="answer")
+    interview.add_chat_to_session(user_message, type="answer", input_mode=input_mode)
 
 
     ##### CONTINUE INTERVIEW BASED ON WORKFLOW #####

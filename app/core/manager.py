@@ -40,6 +40,7 @@ class InterviewManager(object):
         assert self.history[-1].get('session_id') == self.session_id
         # Set current state equal to last
         self.current_state = self.history[-1].copy()
+        self.current_state.pop('input_mode', None)   # belongs to a single answer row, not to the state
         self.parameters = parameters
         logging.info(f"Resumed existing interview session '{self.session_id}'")
 
@@ -63,13 +64,19 @@ class InterviewManager(object):
             return True        
         return False
 
-    def add_chat_to_session(self, message:str, type:str):
-        """ Add to chat transcript to remote database """ 
+    def add_chat_to_session(self, message:str, type:str, input_mode:str=None):
+        """
+        Add to chat transcript to remote database. `input_mode` (answers only) records how the
+        answer was entered in the survey: typed, spoken, spoken_edited or mixed.
+        """
         self.current_state['order'] += 1
-        self.current_state['time'] = str(datetime.now()) 
+        self.current_state['time'] = str(datetime.now())
         self.current_state['content'] = message
         self.current_state['type'] = type
-        self.history.append(self.current_state.copy())
+        row = self.current_state.copy()
+        if input_mode:
+            row['input_mode'] = input_mode
+        self.history.append(row)
         self.client.update_remote_session(self.session_id, self.history)
 
     def terminate(self, reason:str="end_of_interview"):
@@ -123,6 +130,6 @@ class InterviewManager(object):
 
     def update_session(self):
         """ Update current state in remote database """ 
-        self.history[-1] = self.current_state
+        self.history[-1] = {**self.history[-1], **self.current_state}   # keep row-only keys such as input_mode
         self.client.update_remote_session(self.session_id, self.history)
    

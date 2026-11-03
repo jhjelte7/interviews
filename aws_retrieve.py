@@ -32,8 +32,10 @@ def retrieve_all_sessions(table_name:str, output_path:str, print_chats:bool=Fals
     if not all_interview_chats: return
 
     # Save to specified CSV output filepath
-    with open(output_path, 'w') as csvfile:
-        writer = DictWriter(csvfile, fieldnames=all_interview_chats[0].keys())
+    # Columns: union over all rows, since some keys (e.g. input_mode on answers) appear only on some rows
+    fieldnames = list(dict.fromkeys(k for row in all_interview_chats for k in row.keys()))
+    with open(output_path, 'w', newline='', encoding='utf-8-sig') as csvfile:
+        writer = DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(all_interview_chats)
     

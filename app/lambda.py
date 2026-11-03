@@ -143,8 +143,9 @@ def handler(event, context):
         response['body'] = json.dumps(
             next_question(
                 payload['session_id'], 
-                payload['interview_id'], 
-                payload.get('user_message')
+                payload['interview_id'],
+                payload.get('user_message'),
+                input_mode=payload.get('input_mode')
             )
         )
     elif request.get('route') == 'retrieve':
