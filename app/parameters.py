@@ -57,6 +57,10 @@ The first_question and the interview_plan variable are the most critical paramet
 									of the following form [{"topic": str, "length": int}, ...] where:
 									- topic (str): 		a description of the subtopic to be covered in the interview
 									- length (int): 	the total number of questions to ask for this subtopic
+									- end_if_nothing_to_add (bool, optional): for a closing/farewell topic. After the
+									  first answer in this topic, a quick check (moderator model) decides whether the
+									  participant added anything; if not, the interview ends with the end-of-interview
+									  message instead of asking the remaining follow-up questions.
 									The topic description can be short or long, depending on the level of detail you want to provide.
 									It could even mention specific follow-up questions that should be asked in specific circumstances.
 									Feel free to experiment with the number of topics, the number of questions per topic,
@@ -1012,12 +1016,15 @@ INTERVIEW_PARAMETERS["Qual_Interview_4.2"] = {
         {
             "topic": "Whether the participant sees anything similar in their everyday life: situations where they start with a hunch and then change their mind as more information comes in. Any example is welcome, however loose. If nothing comes to mind, accept that and do not press.",
             "length": 2
+        },
+        {
+            "topic": "Farewell. The interview is coming to an end. Thank the participant briefly for their answers and ask, in one short and friendly question, whether there is anything about how they approached the task that has not come up yet and that they would like to add. Your first message in this topic must always end with that question, even if the participant has just said they have nothing more to say. If they add something, ask one short, gentle follow-up about it. Do not open new topics and do not summarise the interview.",
+            "length": 2,
+            "end_if_nothing_to_add": True
         }
     ],
 
-    "closing_questions": [
-        "Before we finish, is there anything about how you approached the task that we have not talked about yet and that you would like to add?"
-    ],
+    "closing_questions": [],
 
     "termination_message": "Thank you very much for your time. The interview is over. Please proceed to the next page.---END---",
     "flagged_message": "Unfortunately several of your messages could not be processed as answers to the interview. Thank you for your time; please proceed to the next page.---END---",
@@ -1182,9 +1189,7 @@ INTERVIEW_PARAMETERS["Qual_Interview_4.2_DE"] = _german_variant(
     INTERVIEW_PARAMETERS["Qual_Interview_4.2"], "Qual_Interview_4.2_DE",
     {
         "first_question": "Vielen Dank, dass Sie die Aufgabe bearbeitet haben. In diesem kurzen Interview möchten wir verstehen, wie Sie dabei vorgegangen sind. Es gibt keine richtigen oder falschen Antworten, und Sie können in Ihren eigenen Worten antworten. Zum Einstieg: Wie haben Sie entschieden, wo Sie den Regler setzen, wenn Sie die Ergebnisse der Drehungen gesehen haben?",
-        "closing_questions": [
-            "Bevor wir zum Ende kommen: Gibt es noch etwas dazu, wie Sie an die Aufgabe herangegangen sind, worüber wir noch nicht gesprochen haben und das Sie gern ergänzen möchten?"
-        ],
+        "closing_questions": [],
         "termination_message": "Vielen Dank für Ihre Zeit. Das Interview ist beendet. Bitte gehen Sie zur nächsten Seite weiter.---END---",
         "flagged_message": "Leider konnten mehrere Ihrer Nachrichten nicht als Antworten im Interview verarbeitet werden. Vielen Dank für Ihre Zeit; bitte gehen Sie zur nächsten Seite weiter.---END---",
         "off_topic_message": "Entschuldigung, das habe ich nicht ganz verstanden. Könnten Sie mir etwas genauer sagen, was Sie meinen?",

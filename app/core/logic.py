@@ -138,6 +138,15 @@ def next_question(session_id:str, interview_id:str, user_message:str=None) -> di
     on_last_question = current_question_idx >= num_questions
     logging.info(f"On question {current_question_idx}/{num_questions}...")
 
+    # Farewell topic: after its first question, follow up only if the participant added something
+    current_topic = parameters['interview_plan'][current_topic_idx-1]
+    if (current_topic.get('end_if_nothing_to_add') and current_question_idx == 1 and not on_last_question
+            and not agent.adds_something(user_message, interview.get_history())):
+        logging.info("Nothing added in the farewell topic: ending the interview")
+        interview.terminate(reason="nothing_to_add")
+        interview.update_session()
+        return {'session_id':session_id, 'message':parameters['end_of_interview_message']}
+
     # Continue in workflow
     if on_last_topic and on_last_question:
         # Close interview with pre-determined closing questions

@@ -92,6 +92,25 @@ class LLMAgent(object):
         )
         return "yes" in response["moderator"].lower()
 
+    def adds_something(self, message:str, history:list) -> bool:
+        """ Farewell topic: does the participant's answer add something to follow up on? Uses the moderator model. """
+        question = next((m['content'] for m in reversed(history) if m.get('type') == 'question'), '')
+        prompt = (
+            "At the end of a research interview the interviewer asked whether the participant would like to add anything.\n\n"
+            f"Interviewer: '{question}'\n\nParticipant: '{message}'\n\n"
+            "Does the participant add new content worth a short follow-up question (a further thought, explanation or example "
+            "about the task)? Answer 'no' if the reply only declines, says there is nothing to add, thanks the interviewer "
+            "or says goodbye, in any language. Answer only with a single 'yes' or 'no'."
+        )
+        model = self.parameters.get('moderator', {}).get('model', 'gpt-4o-mini')
+        query = {"messages": [{"role": "user", "content": prompt}], "model": model}
+        if self.is_legacy_model(model):
+            query.update({"max_completion_tokens": 2, "temperature": 0})
+        else:
+            query.update({"max_completion_tokens": 16, "extra_body": {"reasoning_effort": "none"}})
+        response = execute_queries(self.client.chat.completions.create, {"adds_something": query})
+        return "yes" in response["adds_something"].lower()
+
     def review_question(self, next_question:str) -> bool:
         """ Moderate questions: Are they flagged by the moderation endpoint? """
         response = self.client.moderations.create(
