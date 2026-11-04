@@ -26,7 +26,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
 	var german = typeof interviewID === "string" && interviewID.slice(-3) === "_DE";
 	var TEXT = german ? {
 		placeholder: "Schreiben Sie hier Ihre Antwort...",
-		instruction: "Bitte antworten Sie in ganzen Sätzen.",
+		instruction: "Bitte schreiben oder sprechen Sie in ganzen Sätzen.",
 		submit: "Antwort senden",
 		waiting: "Warte auf Antwort...",
 		end: "Ende des Interviews",
@@ -39,7 +39,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
 		transcribeError: "Die Aufnahme konnte nicht verarbeitet werden. Bitte versuchen Sie es erneut oder tippen Sie Ihre Antwort."
 	} : {
 		placeholder: "Type your message here...",
-		instruction: "Please write full sentences.",
+		instruction: "Please write or speak in full sentences.",
 		submit: "Submit response",
 		waiting: "Waiting for reply...",
 		end: "End of interview",

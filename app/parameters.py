@@ -963,10 +963,7 @@ import copy
 ################################################
 ###   VERSION 4.2 (ADULTS)                   ###
 ################################################
-# 4.2 gives the interviewer more leeway than 4.1: the topics and prompts describe the purpose and context
-# of the study in more depth, but prescribe fewer specific questions and rules, and ask for a warmer,
-# more appreciative tone. It takes up the feedback from the 29 May 2026 test round (one question at a
-# time, short off-topic message, opening sentence that explains the interview, no hypothesis-driven questions).
+
 
 _TASK_BACKGROUND_42 = """
             THE TASK THE PARTICIPANT JUST COMPLETED:
@@ -1007,15 +1004,15 @@ INTERVIEW_PARAMETERS["Qual_Interview_4.2"] = {
         },
         {
             "topic": "What the participant thinks is the best way to do the task. Ask how they would explain the task to a friend who wants to earn as much as possible: what the friend should pay attention to and how they should decide where to put the slider. Stay in that advice-giving perspective rather than switching back to the participant's own behaviour. If their advice differs from what they did themselves, you may ask about that difference with curiosity, not criticism. Do not ask about mistakes here; they are the next topic.",
+            "length": 2
+        },
+        {
+            "topic": "Mistakes that other people might make in this task. Ask what the participant thinks other participants commonly get wrong when moving the slider, for example after a single spin, after several spins of the same colour, or when the colours are mixed, but let the participant name the mistakes first and do not suggest any. Participants may see more than one mistake: first explore the mistake they mention in depth (what it looks like on the slider and why people make it), and then ask whether they can think of any other mistakes, eliciting multiple potential mistakes is preferred. Keep the focus on other people rather than on the participant's own performance, and invite a concrete example. A natural opening is: 'What mistakes do you think other people might make in this task?'",
             "length": 3
         },
         {
-            "topic": "Mistakes that other people might make in this task. Ask what the participant thinks other participants commonly get wrong when moving the slider, for example after a single spin, after several spins of the same colour, or when the colours are mixed, but let the participant name the mistakes first and do not suggest any. Participants may see more than one mistake: first explore the mistake they mention in depth (what it looks like on the slider and why people make it), and then ask whether they can think of any other mistakes. Keep the focus on other people rather than on the participant's own performance, and invite a concrete example. A natural opening is: 'What mistakes do you think other people might make in this task?'",
-            "length": 2
-        },
-        {
             "topic": "Whether the participant sees anything similar in their everyday life: situations where they start with a hunch and then change their mind as more information comes in. Any example is welcome, however loose. If nothing comes to mind, accept that and do not press.",
-            "length": 2
+            "length": 1
         },
         {
             "topic": "Farewell. The interview is coming to an end. Thank the participant briefly for their answers and ask, in one short and friendly question, whether there is anything about how they approached the task that has not come up yet and that they would like to add. Your first message in this topic must always end with that question, even if the participant has just said they have nothing more to say. If they add something, ask one short, gentle follow-up about it. Do not open new topics and do not summarise the interview.",
