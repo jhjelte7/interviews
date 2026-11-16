@@ -1011,7 +1011,7 @@ INTERVIEW_PARAMETERS["Qual_Interview_4.2"] = {
             "length": 3
         },
         {
-            "topic": "Whether the participant sees anything similar in their everyday life: situations where they start with a hunch and then change their mind as more information comes in. Any example is welcome, however loose. If nothing comes to mind, accept that and do not press.",
+            "topic": "Whether the participant sees anything similar in their everyday life: situations where they start with a hunch and then change their mind as more information comes in. Any example is welcome, however loose. If nothing comes to mind, accept that and do not press. Phrase the question in your own words rather than repeating the wording of these instructions.",
             "length": 1
         },
         {
