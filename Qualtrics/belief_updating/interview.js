@@ -19,6 +19,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
 	var recordButton = document.getElementById("recordButton");
 	var inputField = document.getElementById("inputBox");
 	var instructionText = document.getElementById("instructionText");
+	var voiceHint = document.getElementById("voiceHint");
 
 	////////////////////////////////////////////////////
 	// Interface language follows the interview config //
@@ -36,7 +37,8 @@ Qualtrics.SurveyEngine.addOnload(function () {
 		stop: "Aufnahme beenden",
 		transcribing: "Aufnahme wird verarbeitet...",
 		micError: "Das Mikrofon ist nicht verfügbar. Bitte erlauben Sie den Zugriff auf das Mikrofon oder tippen Sie Ihre Antwort.",
-		transcribeError: "Die Aufnahme konnte nicht verarbeitet werden. Bitte versuchen Sie es erneut oder tippen Sie Ihre Antwort."
+		transcribeError: "Die Aufnahme konnte nicht verarbeitet werden. Bitte versuchen Sie es erneut oder tippen Sie Ihre Antwort.",
+		voiceHint: "So antworten Sie per Sprache: Klicken Sie auf „Antwort aufnehmen“, sprechen Sie und klicken Sie dann auf „Aufnahme beenden“. Ihre Antwort erscheint als Text im Feld, wo Sie sie vor dem Senden prüfen können. Ihr Browser fragt eventuell nach der Erlaubnis, das Mikrofon zu verwenden."
 	} : {
 		placeholder: "Type your message here...",
 		instruction: "Please write or speak in full sentences.",
@@ -49,12 +51,14 @@ Qualtrics.SurveyEngine.addOnload(function () {
 		stop: "Stop recording",
 		transcribing: "Processing recording...",
 		micError: "The microphone is not available. Please allow microphone access or type your answer.",
-		transcribeError: "The recording could not be processed. Please try again or type your answer."
+		transcribeError: "The recording could not be processed. Please try again or type your answer.",
+		voiceHint: "To answer by voice: click \"Record answer\", speak, then click \"Stop recording\". Your answer appears as text in the box, where you can check it before sending. Your browser may ask for permission to use the microphone."
 	};
 	inputField.placeholder = TEXT.placeholder;
 	instructionText.innerText = TEXT.instruction;
 	submitButton.innerText = TEXT.submit;
 	recordButton.innerText = TEXT.record;
+	if (voiceHint) voiceHint.innerText = TEXT.voiceHint;
 
 	///////////////////////////////////////////
 	/// ADD NEW MESSAGES WITH DANCING DOTS ////
@@ -237,6 +241,7 @@ Qualtrics.SurveyEngine.addOnload(function () {
 		});
 	} else {
 		recordButton.style.display = "none";   // browser cannot record: typing only
+		if (voiceHint) voiceHint.style.display = "none";
 	}
 
 	////////////////////////////////////////////
